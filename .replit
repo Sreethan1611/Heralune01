@@ -1,16 +1,13 @@
-run =  ["gunicorn", "--bind", "0.0.0.0:5000", "main:app"]
+run =  "python3 Heralune/main.py"
 entrypoint = "main.py"
-modules = ["python-3.11"]
+modules = ["python-3.10"]
 
 hidden = [".pythonlibs"]
 
 [nix]
 channel = "stable-24_05"
 
-[deployment]
-run =  ["gunicorn", "--bind", "0.0.0.0:5000", "main:app"]
-deploymentTarget = "cloudrun"
 
 [[ports]]
-localPort = 5000
-externalPort = 80
+localPort = 81
+externalPort = 3000
