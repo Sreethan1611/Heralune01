@@ -12,13 +12,41 @@
       color: white;
       height: 100vh;
     }
+    .overlay {
+      background: rgba(0, 0, 0, 0.6); /* dark semi-transparent background */
+      padding: 40px;
+      margin: 0;
+      min-height: 100vh;
+      
+    }
+    h2 {
+      margin-top: 0;
+      font-size: 2em;
+    }
+    p {
+      line-height: 1.6;
+      font-size: 1.1em;
+    }
+    a {
+      color: #aaffee;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
   </style>
-<head><title>Heralune Result</title></head>
+<head>
+  <meta charset="UTF-8" />
+  <title>Heralune Result</title>
+</head>
 <body>
+  <div class="overlay">
   <h2>Your Journal Entry:</h2>
   <p>{{ journal_box }}</p>
   <h2>Heralune's Insight:</h2>
   <p>{{ result }}</p>
   <a href="/">Write Another</a>
+    </div>
 </body>
 </html>

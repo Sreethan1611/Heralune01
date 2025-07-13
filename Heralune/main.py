@@ -27,7 +27,7 @@ def analyze():
             {
                 "role": "system",
                 "content": (
-                    "You are a supportive emotional assistant. A user is journaling their thoughts. "
+                    "You are a supportive emotional assistant. A user is journaling their thoughts. Don't ask for a second entry."
                     "Respond with empathy, encouragement, and gentle reflection. Avoid judgment or medical advice. "
                     "If appropriate, suggest simple techniques for self-awareness or comfort."
                 )
@@ -47,7 +47,7 @@ def analyze():
     )
 
     result = response.json()["choices"][0]["message"]["content"]
-    return render_template("result.html", result=result)
+    return render_template("result.html", result=result, journal_box=journal_box)
 
 if __name__ == "__main__":
     app.run(debug=True, port=81)
