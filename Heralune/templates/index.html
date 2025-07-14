@@ -7,8 +7,6 @@
       <link <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet" />
 
       <style>
-        
-
         body {
           margin: 0;
           padding: 0;
@@ -18,8 +16,6 @@
           color: white;
           height: 100vh;
         }
-
-
         .overlay {
           position: relative;
           width: 100%;
@@ -40,7 +36,6 @@
           align-items: center;
           padding: 2rem;
         }
-
         .journal_box {
           background: rgba(255, 255, 255, 0.1);
           padding: 2rem;
@@ -50,14 +45,12 @@
           max-width: 600px;
           width: 90%;
         }
-
         .journal_box h1 {
           font-size: 2rem;
           margin-bottom: 1rem;
           color: #fff;
           text-align: center;
         }
-
         textarea {
           width: 85%;
           height: 150px;
@@ -70,7 +63,6 @@
           font-family: inherit;
           resize: none; 
         }
-
         select {
           margin-top: 1rem;
           padding: 0.5rem;
@@ -79,7 +71,6 @@
           border: none;
           width: 100%;
         }
-
         button {
           margin-top: 1.5rem;
           padding: 0.75rem 1.5rem;
@@ -92,11 +83,38 @@
           width: 65%;
           transition: background 0.3s ease;
         }
-
         button:hover {
           background-color: #ddd;
         }
-
+        .mood-options {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin: 10px 0;
+        }
+        .mood-options label {
+          font-size: 24px;
+          cursor: pointer;
+          padding: 6px 12px;
+          border-radius: 8px;
+          background-color: rgba(255,255,255,0.1);
+          border: 2px solid transparent;
+          transition: all 0.3s ease;
+        }
+        .mood-options input[type="radio"] {
+          display: none;
+        }
+        .mood-options input[type="text"] {
+          display: none;
+        }
+        .mood-heading {
+          font-size: 1.3rem; 
+          margin-bottom: 12px;
+        }       
+        .mood-options input[type="radio"]:checked + span {
+          border: 2px solid white;
+          background-color: rgba(255,255,255,0.2);
+        }
       </style>
     </head>
     <body>
@@ -104,6 +122,47 @@
           <form class="journal_box" method="POST" action="/analyze">
             <h1>Welcome to Heralune</h1>
             <textarea name="entry" placeholder="How are you feeling today? try to explain in about 60 words or bet" required></textarea>
+            <h2 class="mood-heading">What would you describe your mood as?</h2>
+            <div class="mood-options" style="display: flex; gap: 10px;">
+              <label>
+                <input type="radio" name="mood" value="😊 Content/Joy" required style="display: none;">
+                <span class="emoji">😊</span>
+              </label>
+              <label>
+                <input type="radio" name="mood" value="💀 I'm dead/Done" required style="display: none;">
+                <span class="emoji">💀</span>
+              </label>
+              <label>
+                <input type="radio" name="mood" value="😀 Happy/Energized" required style="display: none;">
+                <span class="emoji">😀</span>
+              </label>
+              <label>
+                <input type="radio" name="mood" value="🤡 Embarrased/Foolish" required style=display: none;>
+                <span class="emoji">🤡</span>
+              </label>
+              <label>
+                <input type="radio" name="mood" value="😐 Numb/Meh" required style="display: none;">
+                <span class="emoji">😐</span>
+              </label>
+              <label>
+              <input type="radio" name="mood"  value="😭 Overwhelmed/Emotional" required>
+                <span class="emoji">😭</span>
+              </label>
+              <label>
+                <input type="radio" name="mood" value="😵‍💫 Anxious/Nervous" required>
+                <span class="emoji">😵‍💫</span>
+              </label>
+              <label>
+                <input type="radio" name="mood" value="😎 Chill/Conifident" required>
+                <span class="emoji">😎</span>
+              </label>
+            </div>
+
+            <div style="margin-top: 10px;">
+              <label for="customMood" style="color: white; font-size: 1rem;">Type your mood here :</label><br>
+              <input type="text" id="customMood" name="customMood" placeholder="Only if above emojis don’t fit" style="width: 85%; padding: 10px; border-radius: 8px; border: none;">
+            </div>
+            
         <button type="submit">Reflect</button>
           </form>
         </div>

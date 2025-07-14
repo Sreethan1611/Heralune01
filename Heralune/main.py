@@ -1,6 +1,7 @@
-from flask import Flask, request, render_template
-import requests
 import os
+
+import requests
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 api_key = os.getenv("GROQ_API_KEY")
@@ -10,11 +11,12 @@ def home():
     return render_template("index.html")
 
 @app.route("/analyze", methods=["POST"])
-def analyze():
-    journal_box = request.form.get("entry")  # Get the form data
-
-    if not journal_box:
-        return "No journal entry provided."
+def analyze():   
+    journal_box = request.form.get("entry")
+    mood = request.form.get("mood")
+   
+    if not journal_box or not mood:
+            return "Missing journal or mood."
 
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -47,7 +49,7 @@ def analyze():
     )
 
     result = response.json()["choices"][0]["message"]["content"]
-    return render_template("result.html", result=result, journal_box=journal_box)
+    return render_template("result.html", result=result, journal_box=journal_box, mood=mood)
 
 if __name__ == "__main__":
     app.run(debug=True, port=81)
