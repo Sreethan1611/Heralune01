@@ -1,7 +1,9 @@
 import os
+from datetime import datetime
 
 import requests
-from flask import Flask, render_template, request
+from flask import Flask, make_response, render_template, request
+from flask.helpers import make_response
 
 app = Flask(__name__)
 api_key = os.getenv("GROQ_API_KEY")
@@ -50,6 +52,20 @@ def analyze():
 
     result = response.json()["choices"][0]["message"]["content"]
     return render_template("result.html", result=result, journal_box=journal_box, mood=mood)
+
+@app.route("/download", methods=["POST"])
+def download():
+    journal = request.form.get("journal_box")
+    mood = request.form.get("mood")
+    insight = request.form.get("result") 
+
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
+    content = f"Heralune Journal Entry\nTimestamp: {timestamp}\nMood: {mood}\n\nJournal:\n{journal}\n\nHeralune’s Insight:\n{insight}"
+
+    response = make_response(content)
+    response.headers["Content-Disposition"] = "attachment; filename=heralune_journal.txt"
+    response.headers["Content-Type"] = "text/plain"
+    return response
 
 if __name__ == "__main__":
     app.run(debug=True, port=81)

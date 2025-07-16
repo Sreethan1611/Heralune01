@@ -35,6 +35,22 @@
     a:hover {
       text-decoration: underline;
     }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #ffffff;
+      color: #222;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 65%;
+      transition: background 0.3s ease;
+      align-self: right;
+    }
+    button:hover {
+      background-color: #ddd;
+    }
   </style>
 <head>
   <meta charset="UTF-8" />
@@ -48,6 +64,13 @@
   <p>{{ result }}</p>
   <h2>Mood: {{ mood }}</h2>
   <a href="/">Write Another</a>
+    <form method="POST" action="/download">
+        <input type="hidden" name="journal_box" value="{{ journal_box }}">
+        <input type="hidden" name="mood" value="{{ mood }}">
+        <input type="hidden" name="result" value="{{ result }}">
+        <button type="submit">Download Journal</button>
+    </form>
+
     </div>
 </body>
 </html>
