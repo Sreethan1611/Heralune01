@@ -2,15 +2,22 @@ import os
 from datetime import datetime
 
 import requests
-from flask import Flask, make_response, render_template, request
-from flask.helpers import make_response
+import io
+from flask import Flask, make_response, render_template, request, redirect, url_for,Response, make_response, send_file
+
 
 app = Flask(__name__)
 api_key = os.getenv("GROQ_API_KEY")
 
-@app.route("/", methods=["GET"])
+@app.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template("index.html")
+    if request.method == 'POST':
+        action = request.form.get('action')
+        if action == 'analyze':
+            return redirect(url_for('analyze'))
+        elif action == 'update':
+            return redirect(url_for('update'))
+    return render_template('index.html')
 
 @app.route("/analyze", methods=["POST"])
 def analyze():   
@@ -66,6 +73,25 @@ def download():
     response.headers["Content-Disposition"] = "attachment; filename=heralune_journal.txt"
     response.headers["Content-Type"] = "text/plain"
     return response
+@app.route("/update", methods=["GET", "POST"])
+def update():
+    if request.method == "POST":
+        uploaded_file = request.files.get("journal_file")
+        mood = request.form.get("today_mood")
 
+        if uploaded_file and uploaded_file.filename.endswith(".txt"):
+            content = uploaded_file.read().decode("utf-8")
+            updated_content = f"{content}\nMood today: {mood}"
+
+            return send_file(
+                io.BytesIO(updated_content.encode()),
+                mimetype="text/plain",
+                as_attachment=True,
+                download_name="updated_journal.txt"
+            )
+        else:
+            return "Invalid file format. Please upload a .txt file."
+    return render_template("update.html")
+    
 if __name__ == "__main__":
     app.run(debug=True, port=81)
