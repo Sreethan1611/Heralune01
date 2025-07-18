@@ -70,6 +70,12 @@
         <input type="hidden" name="result" value="{{ result }}">
         <button type="submit">Download Journal</button>
     </form>
+    <form method="POST" action="/reanalyze">
+        <input type="hidden" name="journal_box" value="{{ journal_box }}">
+        <input type="hidden" name="mood" value="{{ mood }}">
+        <button type="submit">Reanalyze</button>
+    </form>
+
 
     </div>
 </body>
