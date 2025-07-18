@@ -122,7 +122,7 @@
           <form class="journal_box" method="POST" action="/analyze">
             <h1>Welcome to Heralune</h1>
             <textarea name="entry" placeholder="How are you feeling today? try to explain in about 60 words or bet" required></textarea>
-
+            <h2 class="mood-heading">What would you describe your mood as?</h2>
             <div class="mood-options" style="display: flex; gap: 10px;">
               <label>
                 <input type="radio" name="mood" value="😊 Content/Joy" required style="display: none;">
@@ -163,12 +163,7 @@
               <input type="text" id="customMood" name="customMood" placeholder="Only if above emojis don’t fit" style="width: 85%; padding: 10px; border-radius: 8px; border: none;">
             </div>
             
-            
-            <form method="post" action="/">
-              <button type="submit" name="action" value="analyze">Analyze Today's Journal</button>
-              <button type="submit" name="action" value="update">Update Yesterday's Journal</button>
-            </form>
-
+        <button type="submit">Reflect</button>
           </form>
         </div>
     </body>
