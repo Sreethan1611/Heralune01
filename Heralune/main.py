@@ -1,8 +1,7 @@
 import os
 from datetime import datetime
-
-import requests
-from flask import Flask, make_response, render_template, request
+import requests, io
+from flask import Flask, make_response, render_template, request, send_file
 from flask.helpers import make_response
 
 app = Flask(__name__)
@@ -101,7 +100,7 @@ def update():
         uploaded_file = request.files.get("journal_file")
         mood = request.form.get("today_mood")
 
-        if uploaded_file and uploaded_file.filename.endswith(".txt"):
+        if uploaded_file and uploaded_file.filename and uploaded_file.filename.endswith(".txt"):
             content = uploaded_file.read().decode("utf-8")
             updated_content = f"{content}\nMood today: {mood}"
             return send_file(io.BytesIO(updated_content.encode()), mimetype="text/plain",

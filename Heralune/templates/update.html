@@ -1,7 +1,5 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-    <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link  href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet" </link>
 
       <style>
@@ -20,22 +18,30 @@
           height: 100%;
           display: flex;
           flex-direction: column;
-          justify-content: center;
-          align-items: center;
           z-index: 10;
-          font-size: 2rem;
-        }
-        .overlay {
-          background: rgba(0, 0, 0, 0.5);
-          height: 100%;
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
+          background: rgba(0, 0, 0, 0.6);
           padding: 2rem;
         }
+          .additional_entry {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(1px);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            max-width: 600px;
+            width: 90%;
+            font-family: inherit;
+              font-size: 1rem;
           }
-          textarea {
+          .additional_entry h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            text-align: center;
+            font-family: inherit
+              font-size: 2rem;
+          }
+           textarea {
             width: 85%;
             height: 150px;
             padding: 1rem;
@@ -46,7 +52,18 @@
             font-size: 1rem;
             font-family: inherit;
             resize: none; 
+            margin-top: 1rem;
+            margin-bottom: 2rem;
           }
+          label {
+            font-size: 1.2rem;
+            color: #fff;
+            display: block;
+            margin-bottom: 0.5rem;
+            margin-top: 1rem;
+            font-family: inherit;
+            fon
+            }
           select {
             margin-top: 1rem;
             padding: 0.5rem;
@@ -55,7 +72,27 @@
             border: none;
             width: 100%;
           }
-          button {
+          .previous-journal {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: #f5f5f5;
+            backdrop-filter: blur(3px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+          }
+          .previous-journal h3 {
+            font-family: inherit;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+          }
+          .journal-content {
+            white-space: pre-wrap;
+            font-family: inherit;
+            font-size: 1.1em;
+            line-height: 1.5;
+          }
+            button {
             margin-top: 1.5rem;
             padding: 0.75rem 1.5rem;
             font-size: 1rem;
@@ -66,23 +103,31 @@
             cursor: pointer;
             width: 65%;
             transition: background 0.3s ease;
+            margin-top: 1rem;
+            font-family: inherit;
           }
           button:hover {
             background-color: #ddd;
           }
+          </style>
 <head>
     <title>Update Journal</title>
 </head>
 <body>
-    <h2>Previous Journal</h2>
-    <pre>{{ journal_box }}</pre>
-
+    <div class="overlay">
+        <div class="previous-journal">
+          <h3>Your Last Reflection:</h3>
+          <div class="journal-content">
+            {{ journal_box | safe }}
+          </div>
+        </div>
     <form method="POST" action="/reanalyze_result">
         <input type="hidden" name="journal_box" value="{{ journal_box }}">
         <input type="hidden" name="mood" value="{{ mood }}">
         <label for="additional_entry">Add More Thoughts:</label><br>
-        <textarea name="additional_entry" rows="6" cols="50"></textarea><br><br>
+        <textarea name="additional_entry"placeholder="Reflect again... have your thoughts changed?"required></textarea><br><br>
         <button type="submit">Continue to Insight</button>
     </form>
+        </div>
 </body>
 </html>
