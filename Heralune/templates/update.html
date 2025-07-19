@@ -1,7 +1,5 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-    <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link  href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet" </link>
 
       <style>
@@ -70,6 +68,7 @@
           button:hover {
             background-color: #ddd;
           }
+          </style>
 <head>
     <title>Update Journal</title>
 </head>
@@ -81,7 +80,7 @@
         <input type="hidden" name="journal_box" value="{{ journal_box }}">
         <input type="hidden" name="mood" value="{{ mood }}">
         <label for="additional_entry">Add More Thoughts:</label><br>
-        <textarea name="additional_entry" rows="6" cols="50"></textarea><br><br>
+        <textarea name="additional_entry"></textarea><br><br>
         <button type="submit">Continue to Insight</button>
     </form>
 </body>
