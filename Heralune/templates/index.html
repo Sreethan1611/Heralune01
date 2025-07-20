@@ -44,6 +44,8 @@
           box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
           max-width: 600px;
           width: 90%;
+          overflow-y: auto;
+          max-height: 90vh;
         }
         .journal_box h1 {
           font-size: 2rem;
@@ -115,6 +117,58 @@
           border: 2px solid white;
           background-color: rgba(255,255,255,0.2);
         }
+        .update_form {
+          background: rgba(255, 255, 255, 0.18);
+          padding: 18px 14px;
+          border-radius: 14px;
+          max-width: 350px;
+          width: 100%;
+          margin: 0 auto;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          font-size: 0.95rem;
+        }
+
+        .update_form label,
+        .update_form h2,
+        .update_form h3 {
+          color: #222;
+          margin-bottom: 3px;
+          font-size: 1rem;
+        }
+        .update_form input[type="file"],
+         {
+          width: 100%;
+          padding: 8px;
+          border-radius: 8px;
+          border: none;
+          margin-bottom: 7px;
+          font-size: 0.95rem;
+          background: rgba(255,255,255,0.65);
+          color: #222;
+        }
+          @media (max-width: 600px) {
+            .journal_box {
+              max-width: 98vw;
+              padding: 0.5rem 4px;
+              font-size: 0.87rem;
+            }
+            .mood-options label {
+              font-size: 0.86rem;
+              padding: 2.5px 3.5px;
+            }
+            .update_form {
+              max-width: 98vw;
+              padding: 10px 4px;
+              font-size: 0.87rem;
+            }
+            .update_form h2,
+            .update_form label {
+              font-size: 0.96rem;
+            }
+          }
+
       </style>
     </head>
     <body>
@@ -122,6 +176,7 @@
           <form class="journal_box" method="POST" action="/analyze">
             <h1>Welcome to Heralune</h1>
             <textarea name="entry" placeholder="How are you feeling today? try to explain in about 60 words or bet" required></textarea>
+            <h2>Upload a past Journal</h2>
             <h2 class="mood-heading">What would you describe your mood as?</h2>
             <div class="mood-options" style="display: flex; gap: 10px;">
               <label>
@@ -165,6 +220,14 @@
             
         <button type="submit">Reflect</button>
           </form>
+          <form class="upload_form" action="/update" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" required>
+            <button type="submit">Upload</button>
+          </form>
+          {% if result %}
+            <h3>Result:</h3>
+            <p>{{ result }}</p>
+          {% endif %}
         </div>
     </body>
     </html>

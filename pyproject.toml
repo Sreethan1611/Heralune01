@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "python-template"
+name = "Heralune"
 version = "0.1.0"
 description = "Flask + GroqAI Journaling App"
 authors = ["Sreethan Kudikala <sreethan.thykudikala@gmail.com>"]

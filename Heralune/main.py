@@ -11,6 +11,16 @@ api_key = os.getenv("GROQ_API_KEY")
 def home():
     return render_template("index.html")
 
+@app.route('/reupload', methods=['POST'])
+def reupload():
+    file = request.files.get('file')
+    if file:
+        content = file.read().decode('utf-8') 
+        result = f"File has {len(content)} characters." 
+        return render_template('index.html', result=result)
+    else:
+        return render_template('index.html', result="No file uploaded.")
+
 @app.route("/analyze", methods=["POST"])
 def analyze():   
     journal_box = request.form.get("entry")
