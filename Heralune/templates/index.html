@@ -220,10 +220,7 @@
             
         <button type="submit">Reflect</button>
           </form>
-          <form class="upload_form" action="/update" method="POST" enctype="multipart/form-data">
-            <input type="file" name="file" required>
-            <button type="submit">Upload</button>
-          </form>
+          
           {% if result %}
             <h3>Result:</h3>
             <p>{{ result }}</p>

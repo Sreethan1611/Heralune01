@@ -1,8 +1,10 @@
 import os
 from datetime import datetime
-import requests, io
+from io import BytesIO
+import requests
 from flask import Flask, make_response, render_template, request, send_file
 from flask.helpers import make_response
+from flask import Flask, request, Response
 
 app = Flask(__name__)
 api_key = os.getenv("GROQ_API_KEY")
@@ -68,6 +70,9 @@ def reanalyze():
     mood = request.form.get("mood", "")
     return render_template("update.html", journal_box=journal_box, mood=mood)
 
+@app.route("/redo", methods=["GET"])
+def redo():
+    return render_template("redo_upload.html")
 
 @app.route('/reanalyze_result', methods=['POST'])
 def reanalyze_result():
@@ -103,21 +108,27 @@ def reanalyze_result():
 
     return render_template("result.html", result=result, journal_box=combined_journal, mood=mood)
 
+@app.route("/update", methods=["POST"])
+def update_journal():
+    uploaded_file = request.files.get("uploaded_file")
+    new_entry = request.form.get("journal_entry", "").strip()
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-@app.route('/update', methods=['GET', 'POST'])
-def update():
-    if request.method == 'POST':
-        uploaded_file = request.files.get("journal_file")
-        mood = request.form.get("today_mood")
+    if not uploaded_file or not uploaded_file.filename or not uploaded_file.filename.endswith(".txt"):
+        return "Please upload a valid .txt file."
 
-        if uploaded_file and uploaded_file.filename and uploaded_file.filename.endswith(".txt"):
-            content = uploaded_file.read().decode("utf-8")
-            updated_content = f"{content}\nMood today: {mood}"
-            return send_file(io.BytesIO(updated_content.encode()), mimetype="text/plain",
-                             as_attachment=True, download_name="updated_journal.txt")
-        return "Invalid file format. Please upload a .txt file."
-    return render_template("update.html")
-    
+    try:
+        previous_content = uploaded_file.read().decode("utf-8")
+    except Exception as e:
+        return f"Error reading uploaded file: {e}"
+    updated_content = f"{previous_content.strip()}\n\n[{timestamp}]\n{new_entry.strip()}"
+    output_filename = f"heralune_updated_journal_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+    return Response(
+        updated_content,
+        mimetype="text/plain",
+        headers={"Content-Disposition": f"attachment; filename={output_filename}"}
+    )
+
 @app.route("/download", methods=["POST"])
 def download():
     journal = request.form.get("journal_box")
