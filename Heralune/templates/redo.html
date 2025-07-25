@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Append Journal</title>
+    <title>Redo</title>
 </head>
 <body>
-    <h2>Append to Uploaded Journal</h2>
-    <form action="/update" method="POST" enctype="multipart/form-data">
-        <label>Upload your old journal:</label>
-        <input type="file" name="uploaded_file" accept=".txt" required><br><br>
-
-        <label>New journal entry:</label><br>
-        <textarea name="journal_entry" rows="10" cols="50" required></textarea><br><br>
-
-        <input type="submit" value="Append & Download">
+    <h2>Upload a Previous Journal to Append</h2>
+    <form action="{{ url_for('redo') }}" method="POST" enctype="multipart/form-data">
+        <label>Choose a .txt journal file to append:</label>
+        <input type="file" name="file" accept=".txt"><br>
+        <input type="hidden" name="journal" value="{{ journal }}">
+        <input type="hidden" name="insight" value="{{ insight }}">
+        <button type="submit">Append and Download</button>
     </form>
+    <a href="/">Back to Home</a>
 </body>
 </html>
+

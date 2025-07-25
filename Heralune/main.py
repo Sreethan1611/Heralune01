@@ -2,35 +2,25 @@ import os
 from datetime import datetime
 from io import BytesIO
 import requests
-from flask import Flask, make_response, render_template, request, send_file
-from flask.helpers import make_response
-from flask import Flask, request, Response
+from flask import (
+    Flask,
+    make_response,
+    Response,
+    redirect,
+    render_template,
+    request,
+    send_file,
+    session,
+    url_for,
+)
 
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
+
 api_key = os.getenv("GROQ_API_KEY")
 
-@app.route("/", methods=["GET"])
-def home():
-    return render_template("index.html")
 
-@app.route('/reupload', methods=['POST'])
-def reupload():
-    file = request.files.get('file')
-    if file:
-        content = file.read().decode('utf-8') 
-        result = f"File has {len(content)} characters." 
-        return render_template('index.html', result=result)
-    else:
-        return render_template('index.html', result="No file uploaded.")
-
-@app.route("/analyze", methods=["POST"])
-def analyze():   
-    journal_box = request.form.get("entry")
-    mood = request.form.get("mood")
-   
-    if not journal_box or not mood:
-            return "Missing journal or mood."
-
+def get_heralune_insight(journal_text):
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json"
@@ -47,10 +37,7 @@ def analyze():
                     "If appropriate, suggest simple techniques for self-awareness or comfort."
                 )
             },
-            {
-                "role": "user",
-                "content": journal_box
-            }
+            {"role": "user", "content": journal_text}
         ],
         "temperature": 0.7
     }
@@ -61,8 +48,31 @@ def analyze():
         json=data
     )
 
-    result = response.json()["choices"][0]["message"]["content"]
+    return response.json()["choices"][0]["message"]["content"]
+
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    if request.method == 'POST':
+        journal = request.form['journal']
+        heralune_insight = get_heralune_insight(journal)
+        session['journal'] = journal
+        session['insight'] = heralune_insight
+        return redirect(url_for('redo'))
+    return render_template("index.html")
+
+
+@app.route("/analyze", methods=["POST"])
+def analyze():
+    journal_box = request.form.get("entry")
+    mood = request.form.get("mood")
+
+    if not journal_box or not mood:
+        return "Missing journal or mood."
+
+    result = get_heralune_insight(journal_box)
     return render_template("result.html", result=result, journal_box=journal_box, mood=mood)
+
 
 @app.route('/reanalyze', methods=['POST'])
 def reanalyze():
@@ -70,42 +80,36 @@ def reanalyze():
     mood = request.form.get("mood", "")
     return render_template("update.html", journal_box=journal_box, mood=mood)
 
-@app.route("/redo", methods=["GET"])
-def redo():
-    return render_template("redo_upload.html")
+@app.route('/redo', methods=['POST'])
+def upload_and_append():
+        journal = request.form.get('journal', '').strip()
+        insight = request.form.get("insight", "").strip()
+        uploaded_file = request.files.get('file')
+
+        old_content = ""
+        if uploaded_file and uploaded_file.filename:
+            old_content = uploaded_file.read().decode("utf-8")
+        new_entry = f"\n\n---\nJournal Entry:\n{journal}\n\nHeralune's Insight:\n{insight}"
+        combined_content = old_content + new_entry
+
+        output_file = BytesIO()
+        output_file.write(combined_content.encode("utf-8"))
+        output_file.seek(0)
+        filename = f"heralune_journal_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+
+        return send_file(output_file,
+                         as_attachment=True,
+                         download_name=filename,
+                         mimetype='text/plain')
+
 
 @app.route('/reanalyze_result', methods=['POST'])
 def reanalyze_result():
     previous_journal = request.form.get("journal_box", "")
     added_text = request.form.get("additional_entry", "")
     mood = request.form.get("mood", "")
-
     combined_journal = previous_journal + "\n\n" + added_text.strip()
-
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
-    }
-
-    data = {
-        "model": "llama3-70b-8192",
-        "messages": [
-            {
-                "role": "system",
-                "content": (
-                    "You are a supportive emotional assistant. A user is journaling their thoughts. Don't ask for a second entry."
-                    "Respond with empathy, encouragement, and gentle reflection. Avoid judgment or medical advice. "
-                    "If appropriate, suggest simple techniques for self-awareness or comfort."
-                )
-            },
-            {"role": "user", "content": combined_journal}
-        ],
-        "temperature": 0.7
-    }
-
-    response = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=data)
-    result = response.json()["choices"][0]["message"]["content"]
-
+    result = get_heralune_insight(combined_journal)
     return render_template("result.html", result=result, journal_box=combined_journal, mood=mood)
 
 @app.route("/update", methods=["POST"])
@@ -121,19 +125,44 @@ def update_journal():
         previous_content = uploaded_file.read().decode("utf-8")
     except Exception as e:
         return f"Error reading uploaded file: {e}"
-    updated_content = f"{previous_content.strip()}\n\n[{timestamp}]\n{new_entry.strip()}"
-    output_filename = f"heralune_updated_journal_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
-    return Response(
-        updated_content,
-        mimetype="text/plain",
-        headers={"Content-Disposition": f"attachment; filename={output_filename}"}
-    )
+
+    updated_content = f"{previous_content.strip()}\n\n[{timestamp}]\n{new_entry}"
+    output_file = BytesIO()
+    output_file.write(updated_content.encode("utf-8"))
+    output_file.seek(0)
+    filename = f"heralune_updated_journal_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+    return send_file(output_file,
+                     as_attachment=True,
+                     download_name=filename,
+                     mimetype='text/plain')
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    journal = request.form['journal']
+    insight = request.form.get("insight", "")
+    uploaded_file = request.files.get('file')
+
+    old_content = ""
+    if uploaded_file and uploaded_file.filename:
+        old_content = uploaded_file.read().decode("utf-8")
+    new_entry = f"\n\n---\nJournal Entry:\n{journal}\n\nHeralune's Insight:\n{insight}"
+    combined_content = old_content + new_entry
+
+    output_file = BytesIO()
+    output_file.write(combined_content.encode("utf-8"))
+    output_file.seek(0)
+    filename = f"heralune_journal_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+
+    return send_file(output_file,
+                     as_attachment=True,
+                     download_name=filename,
+                     mimetype='text/plain')
 
 @app.route("/download", methods=["POST"])
 def download():
     journal = request.form.get("journal_box")
     mood = request.form.get("mood")
-    insight = request.form.get("result") 
+    insight = request.form.get("result")
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
     content = f"Heralune Journal Entry\nTimestamp: {timestamp}\nMood: {mood}\n\nJournal:\n{journal}\n\nHeralune’s Insight:\n{insight}"

@@ -75,11 +75,12 @@
         <input type="hidden" name="mood" value="{{ mood }}">
         <button type="submit">Reanalyze</button>
     </form>
-    <form action="/redo" method="GET">
-        <button type="submit">Append to Uploaded Journal</button>
+    <form action="/redo" method="POST">
+        <input type="hidden" name="journal_entry" value="{{ journal_box }}">
+        <input type="hidden" name="insight" value="{{ result }}">
+        <button type="submit">Upload and Append</button>
     </form>
-
-
-    </div>
+    
+  </div>
 </body>
 </html>
