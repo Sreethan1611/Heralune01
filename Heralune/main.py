@@ -81,27 +81,10 @@ def reanalyze():
     return render_template("update.html", journal_box=journal_box, mood=mood)
 
 @app.route('/redo', methods=['POST'])
-def upload_and_append():
-        journal = request.form.get('journal', '').strip()
-        insight = request.form.get("insight", "").strip()
-        uploaded_file = request.files.get('file')
-
-        old_content = ""
-        if uploaded_file and uploaded_file.filename:
-            old_content = uploaded_file.read().decode("utf-8")
-        new_entry = f"\n\n---\nJournal Entry:\n{journal}\n\nHeralune's Insight:\n{insight}"
-        combined_content = old_content + new_entry
-
-        output_file = BytesIO()
-        output_file.write(combined_content.encode("utf-8"))
-        output_file.seek(0)
-        filename = f"heralune_journal_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
-
-        return send_file(output_file,
-                         as_attachment=True,
-                         download_name=filename,
-                         mimetype='text/plain')
-
+def redo():
+    journal = request.form.get("journal", "")
+    insight = request.form.get("insight", "")
+    return render_template("redo.html", journal=journal, insight=insight)
 
 @app.route('/reanalyze_result', methods=['POST'])
 def reanalyze_result():
@@ -112,29 +95,33 @@ def reanalyze_result():
     result = get_heralune_insight(combined_journal)
     return render_template("result.html", result=result, journal_box=combined_journal, mood=mood)
 
-@app.route("/update", methods=["POST"])
+    from datetime import datetime
+
+@app.route('/update', methods=['POST'])
 def update_journal():
-    uploaded_file = request.files.get("uploaded_file")
-    new_entry = request.form.get("journal_entry", "").strip()
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    if not uploaded_file or not uploaded_file.filename or not uploaded_file.filename.endswith(".txt"):
-        return "Please upload a valid .txt file."
-
-    try:
-        previous_content = uploaded_file.read().decode("utf-8")
-    except Exception as e:
-        return f"Error reading uploaded file: {e}"
-
-    updated_content = f"{previous_content.strip()}\n\n[{timestamp}]\n{new_entry}"
-    output_file = BytesIO()
-    output_file.write(updated_content.encode("utf-8"))
-    output_file.seek(0)
-    filename = f"heralune_updated_journal_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
-    return send_file(output_file,
-                     as_attachment=True,
-                     download_name=filename,
-                     mimetype='text/plain')
+        uploaded_file = request.files.get("file")
+        journal_entry = request.form.get("journal", "").strip()
+        insight = request.form.get("insight", "").strip()
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        metadata = f"--- Appended Entry ---\nUpload Timestamp: {timestamp}"
+        if not uploaded_file or not uploaded_file.filename or not uploaded_file.filename.endswith(".txt"):
+            return "Please upload a valid .txt file."
+        try:
+            previous_content = uploaded_file.read().decode("utf-8")
+        except Exception as e:
+            return f"Error reading uploaded file: {e}"
+        new_content = (
+            f"\n\n{metadata}\nJournal Entry:\n{journal_entry}\n\nHeralune's Insight:\n{insight}\n"
+        )
+        updated_content = f"{previous_content.strip()}{new_content}"
+        output_file = BytesIO()
+        output_file.write(updated_content.encode("utf-8"))
+        output_file.seek(0)
+        filename = f"heralune_updated_journal_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+        return send_file(output_file,
+                         as_attachment=True,
+                         download_name=filename,
+                         mimetype='text/plain')
 
 @app.route('/upload', methods=['POST'])
 def upload():
