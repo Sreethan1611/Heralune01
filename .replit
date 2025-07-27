@@ -1,4 +1,4 @@
-run =  "python3 Heralune/main.py"
+run = "gunicorn Heralune.main:app --bind 0.0.0.0:8080"
 entrypoint = "main.py"
 modules = ["python-3.10"]
 
@@ -16,3 +16,7 @@ exposeLocalhost = true
 localPort = 5000
 externalPort = 80
 exposeLocalhost = true
+
+[[ports]]
+localPort = 8080
+externalPort = 8080
