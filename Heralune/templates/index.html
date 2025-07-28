@@ -168,10 +168,63 @@
               font-size: 0.96rem;
             }
           }
+        .modal {
+          display: block; 
+          position: fixed;
+          z-index: 10000;
+          left: 0;
+          top: 0;
+          width: 100vw;
+          height: 100vh;
+          overflow: auto;
+          background: rgba(0,0,0,0.54);
+          transition: opacity 0.25s;
+        }
+        .modal-content {
+          background: #222e;
+          margin: 7vh auto;
+          padding: 2.2rem 2rem 1.3rem 2rem;
+          width: 90%;
+          max-width: 420px;
+          border-radius: 16px;
+          box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+          color: #fff;
+          position: relative;
+          font-family: inherit;
+          text-align: left;
+        }
+        .close-btn {
+          position: absolute;
+          right: 1.1rem;
+          top: 1.1rem;
+          font-size: 2rem;
+          color: #fff;
+          cursor: pointer;
+          font-weight: bold;
+          transition: color 0.2s;
+        }
+        .close-btn:hover { color: #ffbdbd; }
+        @media (max-width: 600px) {
+          .modal-content { padding: 1.1rem 0.7rem 0.7rem 0.7rem; }
+        }
 
       </style>
     </head>
     <body>
+      <div id="howToModal" class="modal">
+        <div class="modal-content">
+          <span class="close-btn" id="modalCloseBtn">&times;</span>
+          <h2>Welcome to Heralune!</h2>
+          <p>
+            <b>How to use this website:</b><br><br>
+            1. Enter your journal entry in the input box and select your mood.<br>
+            2. Click <b>Analyze</b> to receive thoughtful, empathetic insights.<br>
+            3. Download your entry, or use <b>Upload and Append</b> to combine insights with previous journals.<br>
+            4. You can always upload your older journal and add new thoughts.<br><br>
+            <em>(Click the × at the top right to close this guide.)</em>
+          </p>
+        </div>
+      </div>
         <div class="overlay">
           <form class="journal_box" method="POST" action="/analyze">
             <h1>Welcome to Heralune</h1>

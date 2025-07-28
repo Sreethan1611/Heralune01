@@ -1,10 +1,9 @@
 import os
 from datetime import datetime
 from io import BytesIO
-import requests
+import requests, gunicorn
 from flask import (
     Flask,
-    gunicorn,
     make_response,
     Response,
     redirect,
