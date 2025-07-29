@@ -95,8 +95,6 @@ def reanalyze_result():
     result = get_heralune_insight(combined_journal)
     return render_template("result.html", result=result, journal_box=combined_journal, mood=mood)
 
-    from datetime import datetime
-
 @app.route('/update', methods=['POST'])
 def update_journal():
         uploaded_file = request.files.get("file")
