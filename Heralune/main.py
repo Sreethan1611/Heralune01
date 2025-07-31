@@ -63,6 +63,11 @@ def index():
 
 
 @app.route("/analyze", methods=["POST"])
+def submit_entry():
+    session['entry'] = request.form.get("journal")
+    return render_template("wait.html")
+
+@app.route("/result", methods=["POST"])
 def analyze():
     journal_box = request.form.get("entry")
     mood = request.form.get("mood")
@@ -72,8 +77,7 @@ def analyze():
 
     result = get_heralune_insight(journal_box)
     return render_template("result.html", result=result, journal_box=journal_box, mood=mood)
-
-
+    
 @app.route('/reanalyze', methods=['POST'])
 def reanalyze():
     journal_box = request.form.get("journal_box", "")
