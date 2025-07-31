@@ -11,8 +11,10 @@
           margin: 0;
           padding: 0;
           font-family: 'Nunito', sans-serif;
-          background: url('/static/mm2.jpg') no-repeat center center fixed;
           background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
+          transition: background-image 0.5s ease-in-out;
           color: white;
           height: 100vh;
         }
@@ -228,7 +230,7 @@
         <div class="overlay">
           <form class="journal_box" method="POST" action="/analyze">
             <h1>Welcome to Heralune</h1>
-            <textarea name="entry" placeholder="How are you feeling today? try to explain in about 60 words or bet" required></textarea>
+            <textarea name="entry" placeholder="How are you feeling today? Try to explain in about 60 words" required></textarea>
             <h2 class="mood-heading">What would you describe your mood as?</h2>
             <div class="mood-options" style="display: flex; gap: 10px;">
               <label>
@@ -282,6 +284,19 @@
       function closeHowtoModal() {
         document.getElementById("HowtoModal").style.display = "none";
       }
+        const backgrounds = [
+          "/static/ms1.jpg",
+          "/static/ms2.jpg",
+          "/static/ms3.jpg",
+          "/static/ms4.jpg"
+        ];
+
+        window.onload = () => {
+          const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+          document.body.style.backgroundImage = `url('${randomBg}')`;
+        };        document.getElementById('customMood').addEventListener('input', () => {
+          document.querySelectorAll('input[name="mood"]').forEach(r => r.checked = false);
+        });
       </script>
     </body>
     </html>
