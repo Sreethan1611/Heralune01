@@ -68,7 +68,7 @@ def submit_entry():
     return render_template("wait.html")
 
 @app.route("/result", methods=["POST"])
-def analyze():
+def result():
     journal_box = request.form.get("entry")
     mood = request.form.get("mood")
 
