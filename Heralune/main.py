@@ -63,7 +63,7 @@ def index():
 
 
 @app.route("/analyze", methods=["POST"])
-def submit_entry():
+def analyze():
     session['entry'] = request.form.get("journal")
     return render_template("wait.html")
 
