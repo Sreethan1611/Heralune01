@@ -223,7 +223,24 @@
         @media (max-width: 600px) {
           .modal-content { padding: 1.1rem 0.7rem 0.7rem 0.7rem; }
         }
-
+        #themeToggle {
+          position: fixed;
+          top: 15px;
+          right: 15px;
+          z-index: 9999;
+          background-color: rgba(255, 255, 255, 0.85);
+          color: #333;
+          border: none;
+          padding: 8px 14px;
+          border-radius: 12px;
+          font-weight: bold;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        body.dark-mode #themeToggle {
+          background-color: rgba(33, 33, 33, 0.85);
+          color: #f8f8f8;
+        }
       </style>
     </head>
     <body>
@@ -321,11 +338,11 @@
           if (body.classList.contains('light-mode')) {
             body.classList.remove('light-mode');
             body.classList.add('dark-mode');
-            btn.textContent = "☀️ Light Mode";
+            btn.textContent = "🌙 Dark Mode";
           } else {
             body.classList.remove('dark-mode');
             body.classList.add('light-mode');
-            btn.textContent = "🌙 Dark Mode";
+            btn.textContent = "☀️ Light Mode";
           }
         });
       </script>

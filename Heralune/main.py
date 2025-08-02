@@ -37,7 +37,7 @@ def get_heralune_insight(journal_text):
                     "If appropriate, suggest simple techniques for self-awareness or comfort."
                 )
             },
-            {"role": "user", "content": journal_text}
+            {"role": "user", "content": journal_text, mo}
         ],
         "temperature": 0.7
     }
@@ -61,14 +61,8 @@ def index():
         return redirect(url_for('redo'))
     return render_template("index.html")
 
-
 @app.route("/analyze", methods=["POST"])
 def analyze():
-    session['entry'] = request.form.get("journal")
-    return render_template("wait.html")
-
-@app.route("/result", methods=["POST"])
-def result():
     journal_box = request.form.get("entry")
     mood = request.form.get("mood")
 
@@ -76,6 +70,11 @@ def result():
         return "Missing journal or mood."
 
     result = get_heralune_insight(journal_box)
+    return render_template("wait.html")
+
+@app.route("/result", methods=["POST"])
+def result():
+    journal_box = request.form.get("entry")
     return render_template("result.html", result=result, journal_box=journal_box, mood=mood)
     
 @app.route('/reanalyze', methods=['POST'])
