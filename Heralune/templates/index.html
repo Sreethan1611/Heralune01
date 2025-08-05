@@ -1,350 +1,352 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Heralune</title>
-      <link <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Heralune</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet" />
 
-      <style>
-        body {
-          margin: 0;
-          padding: 0;
-          font-family: 'Nunito', sans-serif;
-          background-size: cover;
-          background-repeat: no-repeat;
-          background-position: center;
-          transition: background-image 0.5s ease-in-out;
-          height: 100vh;
-        }
-        body.light-mode {
-          background-color: #f8f8f8;
-          color: #111;
-        }
-        body.dark-mode {
-          background-color: #111;
-          color: #f8f8f8;
-        }
-        textarea, input, select {
-          background-color: inherit;
-          color: inherit;
-          border: 1px solid #ccc;
-        }
-        button#themeToggle {
-          position: fixed;
-          top: 10px;
-          right: 10px;
-          padding: 6px 10px;
-          border-radius: 8px;
-          cursor: pointer;
-        }
-        .overlay {
-          position: relative;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          z-index: 10;
-          font-size: 2rem;
-          background: rgba(0, 0, 0, 0.5);
-          height: 100%;
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          padding: 2rem;
-        }
-        .journal_box {
-          background: rgba(255, 255, 255, 0.1);
-          padding: 2rem;
-          border-radius: 15px;
-          backdrop-filter: blur(1px);
-          box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-          max-width: 600px;
-          width: 90%;
-          overflow-y: auto;
-          max-height: 90vh;
-        }
-        .journal_box h1 {
-          font-size: 2rem;
-          margin-bottom: 1rem;
-          color: #fff;
-          text-align: center;
-        }
-        textarea {
-          width: 85%;
-          height: 150px;
-          padding: 1rem;
-          border: none;
-          align-content: center;
-          align-self: center;
-          border-radius: 10px;
-          font-size: 1rem;
-          font-family: inherit;
-          resize: none; 
-        }
-        select {
-          margin-top: 1rem;
-          padding: 0.5rem;
-          font-size: 1rem;
-          border-radius: 8px;
-          border: none;
-          width: 100%;
-        }
-        button {
-          margin-top: 1.5rem;
-          padding: 0.75rem 1.5rem;
-          font-size: 1rem;
-          background-color: #ffffff;
-          color: #222;
-          border: none;
-          border-radius: 10px;
-          cursor: pointer;
-          width: 65%;
-          transition: background 0.3s ease;
-        }
-        button:hover {
-          background-color: #ddd;
-        }
-        .mood-options {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 10px;
-          margin: 10px 0;
-        }
-        .mood-options label {
-          font-size: 24px;
-          cursor: pointer;
-          padding: 6px 12px;
-          border-radius: 8px;
-          background-color: rgba(255,255,255,0.1);
-          border: 2px solid transparent;
-          transition: all 0.3s ease;
-        }
-        .mood-options input[type="radio"] {
-          display: none;
-        }
-        .mood-options input[type="text"] {
-          display: none;
-        }
-        .mood-heading {
-          font-size: 1.3rem; 
-          margin-bottom: 12px;
-        }       
-        .mood-options input[type="radio"]:checked + span {
-          border: 2px solid white;
-          background-color: rgba(255,255,255,0.2);
-        }
-        .update_form {
-          background: rgba(255, 255, 255, 0.18);
-          padding: 18px 14px;
-          border-radius: 14px;
-          max-width: 350px;
-          width: 100%;
-          margin: 0 auto;
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-          font-size: 0.95rem;
-        }
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Nunito', sans-serif;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      transition: background-image 0.5s ease-in-out;
+      height: 100vh;
+    }
+    body.light-mode {
+      background-color: #f8f8f8;
+      color: #111;
+      background-image: url('/static/light1.jpg');
+    }
+    body.dark-mode {
+      background-color: #111;
+      color: #f8f8f8;
+      background-image: url('/static/ms1.jpg');
+    }
+    textarea, input, select {
+      background-color: inherit;
+      color: inherit;
+      border: 1px solid #ccc;
+    }
+    button#themeToggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .overlay {
+      position: relative;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      font-size: 2rem;
+      background: rgba(0, 0, 0, 0.5);
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .journal_box {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2rem;
+      border-radius: 15px;
+      backdrop-filter: blur(1px);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+      max-width: 600px;
+      width: 90%;
+      overflow-y: auto;
+      max-height: 90vh;
+    }
+    .journal_box h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #fff;
+      text-align: center;
+    }
+    textarea {
+      width: 85%;
+      height: 150px;
+      padding: 1rem;
+      border: none;
+      align-content: center;
+      align-self: center;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: inherit;
+      resize: none; 
+    }
+    select {
+      margin-top: 1rem;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      width: 100%;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #ffffff;
+      color: #222;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 65%;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background-color: #ddd;
+    }
+    .mood-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    .mood-options label {
+      font-size: 24px;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 8px;
+      background-color: rgba(255,255,255,0.1);
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+    .mood-options input[type="radio"] {
+      display: none;
+    }
+    .mood-options input[type="text"] {
+      display: none;
+    }
+    .mood-heading {
+      font-size: 1.3rem; 
+      margin-bottom: 12px;
+    }       
+    .mood-options input[type="radio"]:checked + span {
+      border: 2px solid white;
+      background-color: rgba(255,255,255,0.2);
+    }
+    .update_form {
+      background: rgba(255, 255, 255, 0.18);
+      padding: 18px 14px;
+      border-radius: 14px;
+      max-width: 350px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 0.95rem;
+    }
+    .mood-options label {
+      font-size: 0.86rem;
+      padding: 2.5px 3.5px;
+    }
+    .modal {
+      display: block; 
+      position: fixed;
+      z-index: 10000;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: auto;
+      background: rgba(0,0,0,0.54);
+      transition: opacity 0.25s;
+    }
+    .modal-content {
+      background: #222e;
+      margin: 7vh auto;
+      padding: 2.2rem 2rem 1.3rem 2rem;
+      width: 90%;
+      max-width: 420px;
+      border-radius: 16px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+      color: #fff;
+      position: relative;
+      font-family: inherit;
+      text-align: left;
+    }
+    .close-btn {
+      position: absolute;
+      right: 1.1rem;
+      top: 1.1rem;
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+      font-weight: bold;
+      transition: color 0.2s;
+    }
+    .close-btn:hover { color: #ffbdbd; }
+    @media (max-width: 600px) {
+      .modal-content { padding: 1.1rem 0.7rem 0.7rem 0.7rem; }
+    }
+    textarea, input, select {
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #111;
+    }
+    body.dark-mode textarea,
+    body.dark-mode input,
+    body.dark-mode select {
+      background-color: rgba(33, 33, 33, 0.9);
+      color: #f8f8f8;
+    }
+    body.dark-mode button {
+      background-color: #333;
+      color: #fff;
+    }
+    body.light-mode button {
+      background-color: #fff;
+      color: #111;
+    }
+    .overlay.light-mode,
+    .form-box.light-mode {
+      background-color: rgba(255, 255, 255, 0.95);
+      color: #111;
+    }
+    .overlay.dark-mode,
+    .form-box.dark-mode {
+      background-color: rgba(0, 0, 0, 0.85);
+      color: #f8f8f8;
+    }
+    #themeToggle {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 9999;
+      background-color: rgba(255, 255, 255, 0.85);
+      color: #333;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    body.dark-mode #themeToggle {
+      background-color: rgba(33, 33, 33, 0.85);
+      color: #f8f8f8;
+    }
+    .modal-content.light-mode {
+      background: rgba(255, 255, 255, 0.9);
+      color: #111;
+    }
+    .modal-content.dark-mode {
+      background: rgba(34, 34, 34, 0.93);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="modal" id="HowtoModal">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeHowtoModal()">&times;</span>
+  <h2>Welcome to Heralune!</h2>
+  <p>
+    <b>How to use Heralune:</b><br><br>
+    1. Enter your journal entry in the input box and select your mood. Write you own mood if the given ones dont match your present mood.<br>
+    2. Click <b>Analyze</b> to receive thoughtful, empathetic insights.<br>
+    3. Download your entry, or use <b>Upload and Append</b> to combine insights with previously downloaded journals.<br>
+    4. You can always upload your older journal and add new thoughts.<br><br>
+    <em>(Click the × at the top right to close this guide.)</em>
+  </p>
+  </div>
+  </div>
+  <div class="overlay">
+  <button id="themeToggle" type="button">🌙</button>
+  <form class="journal_box" method="POST" action="/analyze">
+    <h1>Welcome to Heralune</h1>
+    <textarea name="entry" placeholder="How are you feeling today? Try to explain in about 60 words" required></textarea>
+    <h2 class="mood-heading">What would you describe your mood as?</h2>
+    <div class="mood-options" style="display: flex; gap: 10px;">
+      <label>
+        <input type="radio" name="mood" value="😊 Content/Joy" required style="display: none;">
+        <span class="emoji">😊</span>
+      </label>
+      <label>
+        <input type="radio" name="mood" value="💀 I'm dead/Done" required style="display: none;">
+        <span class="emoji">💀</span>
+      </label>
+      <label>
+        <input type="radio" name="mood" value="😀 Happy/Energized" required style="display: none;">
+        <span class="emoji">😀</span>
+      </label>
+      <label>
+        <input type="radio" name="mood" value="🤡 Embarrased/Foolish" required style=display: none;>
+        <span class="emoji">🤡</span>
+      </label>
+      <label>
+        <input type="radio" name="mood" value="😐 Numb/Meh" required style="display: none;">
+        <span class="emoji">😐</span>
+      </label>
+      <label>
+      <input type="radio" name="mood"  value="😭 Overwhelmed/Emotional" required>
+        <span class="emoji">😭</span>
+      </label>
+      <label>
+        <input type="radio" name="mood" value="😵‍💫 Anxious/Nervous" required>
+        <span class="emoji">😵‍💫</span>
+      </label>
+      <label>
+        <input type="radio" name="mood" value="😎 Chill/Conifident" required>
+        <span class="emoji">😎</span>
+      </label>
+    </div>
 
-        .update_form label,
-        .update_form h2,
-        .update_form h3 {
-          color: #222;
-          margin-bottom: 3px;
-          font-size: 1rem;
-        }
-        .update_form input[type="file"],
-         {
-          width: 100%;
-          padding: 8px;
-          border-radius: 8px;
-          border: none;
-          margin-bottom: 7px;
-          font-size: 0.95rem;
-          background: rgba(255,255,255,0.65);
-          color: #222;
-        }
-          @media (max-width: 600px) {
-            .journal_box {
-              max-width: 98vw;
-              padding: 0.5rem 4px;
-              font-size: 0.87rem;
-            }
-            .mood-options label {
-              font-size: 0.86rem;
-              padding: 2.5px 3.5px;
-            }
-            .update_form {
-              max-width: 98vw;
-              padding: 10px 4px;
-              font-size: 0.87rem;
-            }
-            .update_form h2,
-            .update_form label {
-              font-size: 0.96rem;
-            }
-          }
-        .modal {
-          display: block; 
-          position: fixed;
-          z-index: 10000;
-          left: 0;
-          top: 0;
-          width: 100vw;
-          height: 100vh;
-          overflow: auto;
-          background: rgba(0,0,0,0.54);
-          transition: opacity 0.25s;
-        }
-        .modal-content {
-          background: #222e;
-          margin: 7vh auto;
-          padding: 2.2rem 2rem 1.3rem 2rem;
-          width: 90%;
-          max-width: 420px;
-          border-radius: 16px;
-          box-shadow: 0 12px 32px rgba(0,0,0,0.2);
-          color: #fff;
-          position: relative;
-          font-family: inherit;
-          text-align: left;
-        }
-        .close-btn {
-          position: absolute;
-          right: 1.1rem;
-          top: 1.1rem;
-          font-size: 2rem;
-          color: #fff;
-          cursor: pointer;
-          font-weight: bold;
-          transition: color 0.2s;
-        }
-        .close-btn:hover { color: #ffbdbd; }
-        @media (max-width: 600px) {
-          .modal-content { padding: 1.1rem 0.7rem 0.7rem 0.7rem; }
-        }
-        #themeToggle {
-          position: fixed;
-          top: 15px;
-          right: 15px;
-          z-index: 9999;
-          background-color: rgba(255, 255, 255, 0.85);
-          color: #333;
-          border: none;
-          padding: 8px 14px;
-          border-radius: 12px;
-          font-weight: bold;
-          cursor: pointer;
-          transition: all 0.3s ease;
-        }
-        body.dark-mode #themeToggle {
-          background-color: rgba(33, 33, 33, 0.85);
-          color: #f8f8f8;
-        }
-      </style>
-    </head>
-    <body>
-          <div class="modal" id="HowtoModal">
-            <div class="modal-content">
-              <span class="close-button" onclick="closeHowtoModal()">&times;</span>
-          <h2>Welcome to Heralune!</h2>
-          <p>
-            <b>How to use Heralune:</b><br><br>
-            1. Enter your journal entry in the input box and select your mood. Write you own mood if the given ones dont match your present mood.<br>
-            2. Click <b>Analyze</b> to receive thoughtful, empathetic insights.<br>
-            3. Download your entry, or use <b>Upload and Append</b> to combine insights with previously downloaded journals.<br>
-            4. You can always upload your older journal and add new thoughts.<br><br>
-            <em>(Click the × at the top right to close this guide.)</em>
-          </p>
-        </div>
-      </div>
-        <div class="overlay">
-          <button id="themeToggle" type="button">🌙 Dark Mode</button>
-          <form class="journal_box" method="POST" action="/analyze">
-            <h1>Welcome to Heralune</h1>
-            <textarea name="entry" placeholder="How are you feeling today? Try to explain in about 60 words" required></textarea>
-            <h2 class="mood-heading">What would you describe your mood as?</h2>
-            <div class="mood-options" style="display: flex; gap: 10px;">
-              <label>
-                <input type="radio" name="mood" value="😊 Content/Joy" required style="display: none;">
-                <span class="emoji">😊</span>
-              </label>
-              <label>
-                <input type="radio" name="mood" value="💀 I'm dead/Done" required style="display: none;">
-                <span class="emoji">💀</span>
-              </label>
-              <label>
-                <input type="radio" name="mood" value="😀 Happy/Energized" required style="display: none;">
-                <span class="emoji">😀</span>
-              </label>
-              <label>
-                <input type="radio" name="mood" value="🤡 Embarrased/Foolish" required style=display: none;>
-                <span class="emoji">🤡</span>
-              </label>
-              <label>
-                <input type="radio" name="mood" value="😐 Numb/Meh" required style="display: none;">
-                <span class="emoji">😐</span>
-              </label>
-              <label>
-              <input type="radio" name="mood"  value="😭 Overwhelmed/Emotional" required>
-                <span class="emoji">😭</span>
-              </label>
-              <label>
-                <input type="radio" name="mood" value="😵‍💫 Anxious/Nervous" required>
-                <span class="emoji">😵‍💫</span>
-              </label>
-              <label>
-                <input type="radio" name="mood" value="😎 Chill/Conifident" required>
-                <span class="emoji">😎</span>
-              </label>
-            </div>
+    <div style="margin-top: 10px;">
+      <label for="customMood" style="color: white; font-size: 1rem;">Type your mood here :</label><br>
+      <input type="text" id="customMood" name="customMood" placeholder="Only if above emojis don’t fit" style="width: 85%; padding: 10px; border-radius: 8px; border: none;">
+    </div>
 
-            <div style="margin-top: 10px;">
-              <label for="customMood" style="color: white; font-size: 1rem;">Type your mood here :</label><br>
-              <input type="text" id="customMood" name="customMood" placeholder="Only if above emojis don’t fit" style="width: 85%; padding: 10px; border-radius: 8px; border: none;">
-            </div>
-            
-        <button type="submit">Reflect</button>
-          </form>
-          
-          {% if result %}
-            <h3>Result:</h3>
-            <p>{{ result }}</p>
-          {% endif %}
-        </div>
-      <script>
-      function closeHowtoModal() {
-        document.getElementById("HowtoModal").style.display = "none";
-      }
-        const backgrounds = [
-          "/static/ms1.jpg",
-          "/static/ms2.jpg",
-          "/static/ms3.jpg",
-          "/static/ms4.jpg"
-        ];
+  <button type="submit">Reflect</button>
+  </form>
+  {% if result %}
+    <h3>Result:</h3>
+    <p>{{ result }}</p>
+  {% endif %}
+  </div>
+  <script>
+    const btn = document.getElementById('themeToggle');
+    const body = document.body;
+    const overlay = document.querySelector('.overlay');
+    const formBox = document.querySelector('.journal_box');
+    const modalContent = document.querySelector('.modal-content');
 
-        window.onload = () => {
-          const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
-          document.body.style.backgroundImage = `url('${randomBg}')`;
-        };        document.getElementById('customMood').addEventListener('input', () => {
-          document.querySelectorAll('input[name="mood"]').forEach(r => r.checked = false);
-        });
-        const btn = document.getElementById('themeToggle');
-        const body = document.body;
+    body.classList.add('light-mode');
+    overlay?.classList.add('light-mode');
+    formBox?.classList.add('light-mode');
 
-        body.classList.add('light-mode');
-
-        btn.addEventListener('click', () => {
-          if (body.classList.contains('light-mode')) {
-            body.classList.remove('light-mode');
-            body.classList.add('dark-mode');
-            btn.textContent = "🌙 Dark Mode";
-          } else {
-            body.classList.remove('dark-mode');
-            body.classList.add('light-mode');
-            btn.textContent = "☀️ Light Mode";
-          }
-        });
-      </script>
-    </body>
-    </html>
+    btn.addEventListener('click', () => {
+      const isLight = body.classList.contains('light-mode');
+      body.classList.toggle('light-mode', !isLight);
+      body.classList.toggle('dark-mode', isLight);
+      overlay?.classList.toggle('light-mode', !isLight);
+      overlay?.classList.toggle('dark-mode', isLight);
+      formBox?.classList.toggle('light-mode', !isLight);
+      formBox?.classList.toggle('dark-mode', isLight);
+      modalContent.classList.toggle('light-mode', !isLight);
+      modalContent.classList.toggle('dark-mode', isLight);
+      const backgrounds = [
+        "/static/images/ms1.jpg",
+        "/static/images/ms2.jpg",
+        "/static/images/ms3.jpg",
+        "/static/images/ms4.jpg"
+      ];
+      window.onload = () => {
+        const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.body.style.backgroundImage = `url('${randomBg}')`;
+      };
+      btn.textContent = isLight ? "☀️" : "🌙";
+    });
+  </script>
+</body>
+</html>

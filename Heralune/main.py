@@ -37,7 +37,7 @@ def get_heralune_insight(journal_text):
                     "If appropriate, suggest simple techniques for self-awareness or comfort."
                 )
             },
-            {"role": "user", "content": journal_text, mo}
+            {"role": "user", "content": journal_text}
         ],
         "temperature": 0.7
     }
