@@ -1,4 +1,4 @@
-import os
+import os, random
 from datetime import datetime
 from io import BytesIO
 import requests, gunicorn
@@ -9,7 +9,6 @@ from flask import (
     redirect,
     render_template,
     request,
-    random,
     send_file,
     session,
     url_for,
