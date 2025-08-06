@@ -18,15 +18,43 @@
       transition: background-image 0.5s ease-in-out;
       height: 100vh;
     }
-    body.light-mode {
-      background-color: #f8f8f8;
-      color: #111;
-      background-image: url('/static/light1.jpg');
-    }
     body.dark-mode {
       background-color: #111;
       color: #f8f8f8;
-      background-image: url('/static/ms1.jpg');
+      background-image: url('/static/images/ms1.jpg');
+    }
+    body.light-mode {
+      background-color: #f8f8f8;
+      color: #111;
+      background-image: url('/static/images/ms3.jpg');
+    }
+    textarea, input, select {
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #111;
+    }
+    body.dark-mode textarea,
+    body.dark-mode input,
+    body.dark-mode select {
+      background-color: rgba(33, 33, 33, 0.9);
+      color: #f8f8f8;
+    }
+    #themeToggle {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 9999;
+      background-color: rgba(255, 255, 255, 0.85);
+      color: #333;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    body.dark-mode #themeToggle {
+      background-color: rgba(33, 33, 33, 0.85);
+      color: #f8f8f8;
     }
     textarea, input, select {
       background-color: inherit;
@@ -143,18 +171,6 @@
       border: 2px solid white;
       background-color: rgba(255,255,255,0.2);
     }
-    .update_form {
-      background: rgba(255, 255, 255, 0.18);
-      padding: 18px 14px;
-      border-radius: 14px;
-      max-width: 350px;
-      width: 100%;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      font-size: 0.95rem;
-    }
     .mood-options label {
       font-size: 0.86rem;
       padding: 2.5px 3.5px;
@@ -202,48 +218,6 @@
       background-color: rgba(255, 255, 255, 0.9);
       color: #111;
     }
-    body.dark-mode textarea,
-    body.dark-mode input,
-    body.dark-mode select {
-      background-color: rgba(33, 33, 33, 0.9);
-      color: #f8f8f8;
-    }
-    body.dark-mode button {
-      background-color: #333;
-      color: #fff;
-    }
-    body.light-mode button {
-      background-color: #fff;
-      color: #111;
-    }
-    .overlay.light-mode,
-    .form-box.light-mode {
-      background-color: rgba(255, 255, 255, 0.95);
-      color: #111;
-    }
-    .overlay.dark-mode,
-    .form-box.dark-mode {
-      background-color: rgba(0, 0, 0, 0.85);
-      color: #f8f8f8;
-    }
-    #themeToggle {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      z-index: 9999;
-      background-color: rgba(255, 255, 255, 0.85);
-      color: #333;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 12px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    body.dark-mode #themeToggle {
-      background-color: rgba(33, 33, 33, 0.85);
-      color: #f8f8f8;
-    }
     .modal-content.light-mode {
       background: rgba(255, 255, 255, 0.9);
       color: #111;
@@ -251,6 +225,19 @@
     .modal-content.dark-mode {
       background: rgba(34, 34, 34, 0.93);
       color: #fff;
+    }
+    .spinner {
+      margin: 20px auto;
+      width: 50px;
+      height: 50px;
+      border: 6px solid #ccc;
+      border-top: 6px solid #4CAF50;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0%   { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
@@ -269,9 +256,13 @@
   </p>
   </div>
   </div>
+    <div id="loadingScreen" style="display: none; text-align: center;">
+      <p style="font-size: 1.2em;">Analyzing your thoughts...</p>
+      <div class="spinner"></div>
+    </div>
   <div class="overlay light-mode">
   <button id="themeToggle" type="button">🌙</button>
-  <form class="journal_box" method="POST" action="/analyze">
+  <form class="journal_box" method="POST" action="/analyze" onsubmit="showLoading()">
     <h1>Welcome to Heralune</h1>
     <textarea name="entry" placeholder="How are you feeling today? Try to explain in about 60 words" required></textarea>
     <h2 class="mood-heading">What would you describe your mood as?</h2>
@@ -322,21 +313,21 @@
     <p>{{ result }}</p>
   {% endif %}
   </div>
-  <script>
-    function closeHowtoModal() {
-      document.getElementById("HowtoModal").style.display = "none";
-    }
-    const toggleButton = document.getElementById("darkModeToggle");
-    const overlay = document.querySelector(".overlay");
-
-    toggleButton.addEventListener("click", () => {
-      const isLight = overlay.classList.contains("light-mode");
-
-      overlay.classList.toggle("light-mode", !isLight);
-      overlay.classList.toggle("dark-mode", isLight);
-
-      toggleButton.textContent = isLight ? "☀️" : "🌙";
-    });
-  </script>
+    <script>
+      function showLoading() {
+        document.getElementById("formSection").style.display = "none";
+        document.getElementById("loadingScreen").style.display = "block";
+      }
+      window.addEventListener('DOMContentLoaded', () => {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.classList.add(savedTheme + '-mode');
+      });
+document.getElementById('themeToggle').addEventListener('click', () => {
+        const isDark = document.body.classList.contains('dark-mode');
+        document.body.classList.toggle('dark-mode', !isDark);
+        document.body.classList.toggle('light-mode', isDark);
+        localStorage.setItem('theme', isDark ? 'light' : 'dark');
+      });
+    </script>
 </body>
 </html>
