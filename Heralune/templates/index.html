@@ -11,6 +11,7 @@
       margin: 0;
       padding: 0;
       font-family: 'Nunito', sans-serif;
+      background-image: url('/static/images/ms2.jpg');
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
@@ -45,7 +46,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      z-index: 10;
+      z-index: 1;
       font-size: 2rem;
       background: rgba(0, 0, 0, 0.5);
       height: 100%;
@@ -53,6 +54,13 @@
       display: flex;
       justify-content: center;
       padding: 2rem;
+      transition: background-color 0.3s ease-in-out;
+    }
+    .overlay.light-mode {
+      background-color: rgba(255, 255, 255, 0.75);
+    }
+    .overlay.dark-mode {
+      background-color: rgba(0, 0, 0, 0.75);
     }
     .journal_box {
       background: rgba(255, 255, 255, 0.1);
@@ -246,7 +254,7 @@
     }
   </style>
 </head>
-<body>
+  <body style="background-image: url('{{ url_for('static', filename='images/' + bg) }}');">
   <div class="modal" id="HowtoModal">
     <div class="modal-content">
       <span class="close-button" onclick="closeHowtoModal()">&times;</span>
@@ -261,7 +269,7 @@
   </p>
   </div>
   </div>
-  <div class="overlay">
+  <div class="overlay light-mode">
   <button id="themeToggle" type="button">🌙</button>
   <form class="journal_box" method="POST" action="/analyze">
     <h1>Welcome to Heralune</h1>
@@ -315,37 +323,19 @@
   {% endif %}
   </div>
   <script>
-    const btn = document.getElementById('themeToggle');
-    const body = document.body;
-    const overlay = document.querySelector('.overlay');
-    const formBox = document.querySelector('.journal_box');
-    const modalContent = document.querySelector('.modal-content');
+    function closeHowtoModal() {
+      document.getElementById("HowtoModal").style.display = "none";
+    }
+    const toggleButton = document.getElementById("darkModeToggle");
+    const overlay = document.querySelector(".overlay");
 
-    body.classList.add('light-mode');
-    overlay?.classList.add('light-mode');
-    formBox?.classList.add('light-mode');
+    toggleButton.addEventListener("click", () => {
+      const isLight = overlay.classList.contains("light-mode");
 
-    btn.addEventListener('click', () => {
-      const isLight = body.classList.contains('light-mode');
-      body.classList.toggle('light-mode', !isLight);
-      body.classList.toggle('dark-mode', isLight);
-      overlay?.classList.toggle('light-mode', !isLight);
-      overlay?.classList.toggle('dark-mode', isLight);
-      formBox?.classList.toggle('light-mode', !isLight);
-      formBox?.classList.toggle('dark-mode', isLight);
-      modalContent.classList.toggle('light-mode', !isLight);
-      modalContent.classList.toggle('dark-mode', isLight);
-      const backgrounds = [
-        "/static/images/ms1.jpg",
-        "/static/images/ms2.jpg",
-        "/static/images/ms3.jpg",
-        "/static/images/ms4.jpg"
-      ];
-      window.onload = () => {
-        const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
-        document.body.style.backgroundImage = `url('${randomBg}')`;
-      };
-      btn.textContent = isLight ? "☀️" : "🌙";
+      overlay.classList.toggle("light-mode", !isLight);
+      overlay.classList.toggle("dark-mode", isLight);
+
+      toggleButton.textContent = isLight ? "☀️" : "🌙";
     });
   </script>
 </body>

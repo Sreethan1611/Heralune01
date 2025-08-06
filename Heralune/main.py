@@ -9,6 +9,7 @@ from flask import (
     redirect,
     render_template,
     request,
+    random,
     send_file,
     session,
     url_for,
@@ -59,7 +60,9 @@ def index():
         session['journal'] = journal
         session['insight'] = heralune_insight
         return redirect(url_for('redo'))
-    return render_template("index.html")
+    else:
+        bg = random.choice(["ms1.jpg", "ms2.jpg", "ms3.jpg", "ms4.jpg"])
+    return render_template("index.html", bg=bg)
 
 @app.route("/analyze", methods=["POST"])
 def analyze():
@@ -70,24 +73,22 @@ def analyze():
         return "Missing journal or mood."
 
     result = get_heralune_insight(journal_box)
-    return render_template("wait.html")
+    bg = request.form.get("bg", "default.jpg")
+    return render_template("result.html", result=result, journal_box=journal_box, mood=mood, bg=bg)
 
-@app.route("/result", methods=["POST"])
-def result():
-    journal_box = request.form.get("entry")
-    return render_template("result.html", result=result, journal_box=journal_box, mood=mood)
-    
 @app.route('/reanalyze', methods=['POST'])
 def reanalyze():
     journal_box = request.form.get("journal_box", "")
     mood = request.form.get("mood", "")
-    return render_template("update.html", journal_box=journal_box, mood=mood)
+    bg = request.form.get("bg", "default.jpg")
+    return render_template("update.html", journal_box=journal_box, mood=mood, bg=bg)
 
 @app.route('/redo', methods=['POST'])
 def redo():
     journal = request.form.get("journal", "")
     insight = request.form.get("insight", "")
-    return render_template("redo.html", journal=journal, insight=insight)
+    bg = request.form.get("bg", "default.jpg")
+    return render_template("redo.html", journal=journal, insight=insight, bg=bg)
 
 @app.route('/reanalyze_result', methods=['POST'])
 def reanalyze_result():
@@ -96,7 +97,8 @@ def reanalyze_result():
     mood = request.form.get("mood", "")
     combined_journal = previous_journal + "\n\n" + added_text.strip()
     result = get_heralune_insight(combined_journal)
-    return render_template("result.html", result=result, journal_box=combined_journal, mood=mood)
+    bg = request.form.get("bg", "default.jpg")
+    return render_template("result.html", result=result, journal_box=combined_journal, mood=mood, bg=bg)
 
 @app.route('/update', methods=['POST'])
 def update_journal():

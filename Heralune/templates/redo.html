@@ -121,7 +121,7 @@
 <head>
     <title>Redo</title>
 </head>
-<body>
+  <body style="background-image: url('{{ url_for('static', filename='images/' + bg) }}');">
      <div class="overlay">
     <h2>Upload a Previous Journal to Append</h2>
          <form action="{{ url_for('update') }}" method="POST" enctype="multipart/form-data">
@@ -134,18 +134,6 @@
 
     <a href="/">Back to Home</a>
          </div>
-  <script>
-    const backgrounds = [
-      "/static/images/ms1.jpg",
-      "/static/images/ms2.jpg",
-      "/static/images/ms3.jpg",
-      "/static/images/ms4.jpg"
-    ];
-    window.onload = () => {
-      const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
-      document.body.style.backgroundImage = `url('${randomBg}')`;
-    };
-  </script>
 </body>
 </html>
 
