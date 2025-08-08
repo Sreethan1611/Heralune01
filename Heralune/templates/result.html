@@ -58,8 +58,7 @@
   <meta charset="UTF-8" />
   <title>Heralune Result</title>
 </head>
-    <body class="{% if mode == 'dark' %}dark-mode{% endif %}"
-      style="background-image: url('{{ url_for('static', filename='images/' + bg) }}');">
+    <body style="background-image: url('{{ url_for('static', filename='images/' + bg) }}');">
   <div class="overlay">
   <h2>Your Journal Entry:</h2>
   <p>{{ journal_box }}</p>
