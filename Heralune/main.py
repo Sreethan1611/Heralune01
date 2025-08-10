@@ -49,8 +49,14 @@ def get_heralune_insight(journal_text):
     )
 
     return response.json()["choices"][0]["message"]["content"]
-
-
+    
+def get_random_bg():
+    return random.choice(["ms1.jpg", "ms2.jpg", "ms3.jpg", "ms4.jpg"])
+@app.before_request
+def ensure_bg():
+    if "bg" not in session:
+        session["bg"] = get_random_bg()
+        
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == 'POST':
@@ -60,8 +66,7 @@ def index():
         session['insight'] = heralune_insight
         return redirect(url_for('redo'))
     else:
-        bg = random.choice(["ms1.jpg", "ms2.jpg", "ms3.jpg", "ms4.jpg"])
-    return render_template("index.html", bg=bg)
+        return render_template("index.html", bg=session["bg"])
 
 @app.route("/analyze", methods=["POST"])
 def analyze():
@@ -73,21 +78,21 @@ def analyze():
 
     result = get_heralune_insight(journal_box)
     bg = request.form.get("bg", "default.jpg")
-    return render_template("result.html", result=result, journal_box=journal_box, mood=mood, bg=bg)
+    return render_template("result.html", result=result, journal_box=journal_box, mood=mood, bg=session["bg"])
 
 @app.route('/reanalyze', methods=['POST'])
 def reanalyze():
     journal_box = request.form.get("journal_box", "")
     mood = request.form.get("mood", "")
     bg = request.form.get("bg", "default.jpg")
-    return render_template("update.html", journal_box=journal_box, mood=mood, bg=bg)
+    return render_template("update.html", journal_box=journal_box, mood=mood, bg=session["bg"])
 
 @app.route('/redo', methods=['POST'])
 def redo():
     journal = request.form.get("journal", "")
     insight = request.form.get("insight", "")
     bg = request.form.get("bg", "default.jpg")
-    return render_template("redo.html", journal=journal, insight=insight, bg=bg)
+    return render_template("redo.html", journal=journal, insight=insight, bg=session["bg"])
 
 @app.route('/reanalyze_result', methods=['POST'])
 def reanalyze_result():
@@ -97,7 +102,7 @@ def reanalyze_result():
     combined_journal = previous_journal + "\n\n" + added_text.strip()
     result = get_heralune_insight(combined_journal)
     bg = request.form.get("bg", "default.jpg")
-    return render_template("result.html", result=result, journal_box=combined_journal, mood=mood, bg=bg)
+    return render_template("result.html", result=result, journal_box=combined_journal, mood=mood, bg=session["bg"])
 
 @app.route('/update', methods=['POST'])
 def update_journal():
