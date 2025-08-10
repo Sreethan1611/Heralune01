@@ -1,139 +1,152 @@
 <!DOCTYPE html>
-<html>
-    <link  href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet" </link>
-      <style>
-          body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Nunito', sans-serif;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            transition: background-image 0.5s ease-in-out;
-            color: white;
-            height: 100vh;
-            min-height: 100vh;
-            box-sizing: border-box;
-          }
-          .overlay {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            max-width: 400px;
-            width: 90vw;
-            background: rgba(30, 30, 40, 0.85);
-            border-radius: 20px;
-            padding: 2.5rem 2rem 2rem 2rem;
-            box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-          }
-          h2 {
-            margin-bottom: 1.5rem;
-            font-size: 2rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-shadow: 0 1px 4px #000a;
-          }
-          form {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-          }
-          label {
-            font-size: 1.1rem;
-            color: #fff;
-            margin-bottom: 0.6rem;
-            margin-top: 0.8rem;
-            font-family: inherit;
-            font-weight: 500;
-          }
-          input[type="file"] {
-            margin-bottom: 1.1rem;
-            color: #fff;
-            background: transparent;
-            border: none;
-            font-family: inherit;
-            opacity: 0;
-            position: absolute;
-            width: 0;
-            height: 0;
-          }
-          .file-input-label {
-            display: inline-block;
-            background: #f8f8f8;
-            color: #222;
-            font-size: 1rem;
-            border-radius: 8px;
-            padding: 0.7rem 1.2rem;
-            cursor: pointer;
-            margin-bottom: 1rem;
-            margin-top: 0.2rem;
-            transition: background 0.2s;
-          }
-          .file-input-label:hover {
-            background: #ececec;
-          }
-          button {
-            margin: 0.7rem auto 0 auto;
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
-            background-color: #fff;
-            color: #222;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            width: 100%;
-            font-family: inherit;
-            font-weight: 600;
-            box-shadow: 0 4px 24px 0 rgba(31,38,135,0.19);
-            transition: background 0.3s, color 0.3s;
-          }
-          button:hover {
-            background-color: #ededed;
-            color: #0078d4;
-          }
-          a {
-            color: #8ecfff;
-            margin-top: 1.5rem;
-            font-size: 1rem;
-            display: block;
-            text-align: center;
-            text-decoration: none;
-            font-weight: 500;
-          }
-          a:hover {
-            color: #f5a0d7;
-            text-decoration: underline;
-          }
-          @media (max-width: 600px) {
-            .overlay {
-              padding: 1.3rem 0.7rem;
-            }
-            h2 {
-              font-size: 1.23rem;
-            }
-          }
-          </style>
+<html lang="en">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Nunito', sans-serif;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      transition: background-image 0.5s ease-in-out;
+      color: white;
+      height: 100vh;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    .overlay {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 400px;
+      width: 90vw;
+      background: rgba(30, 30, 40, 0.85);
+      border-radius: 20px;
+      padding: 2.5rem 2rem 2rem 2rem;
+      box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h2 {
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-shadow: 0 1px 4px #000a;
+    }
+    form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #ffffff;
+      color: #222;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 65%;
+      transition: background 0.3s ease;
+      margin-top: 1rem;
+      font-family: inherit;
+    }
+    button:hover {
+      background-color: #ddd;
+    }
+    .file-input-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255,255,255,0.95);
+      color: #222;
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 6px 18px rgba(31,38,135,0.06);
+      transition: transform .12s ease, box-shadow .12s ease, background .12s;
+      user-select: none;
+      max-width: 100%;
+    }
+    .file-input-label:hover,
+    .file-input-label:focus-within {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 30px rgba(31,38,135,0.09);
+      background: #fff;
+    }
+    .file-btn {
+      background: linear-gradient(180deg, #ffffff, #f0f4ff);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #0b2b7a;
+      border: 1px solid rgba(49,84,233,0.12);
+      box-shadow: 0 6px 18px rgba(49,84,233,0.06);
+      white-space: nowrap;
+    }
+    .file-name {
+      font-size: 0.95rem;
+      color: #444;
+      opacity: 0.95;
+      max-width: 220px;         
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .file-input-label input[type="file"] {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    @media (max-width: 420px) {
+      .file-input-label {
+        gap: 8px;
+        padding: 8px 10px;
+      }
+      .file-name { max-width: 120px; font-size: 0.9rem; }
+      .file-btn { padding: 7px 10px; font-size: 0.94rem; }
+    }
+  </style>
 <head>
-    <title>Upload and Append</title>
+    <title>Append Journal</title>
 </head>
-  <body style="background-image: url('{{ url_for('static', filename='images/' + bg) }}');">
-     <div class="overlay">
-    <h2>Upload a Previous Journal to Append</h2>
-         <form action="{{ url_for('update') }}" method="POST" enctype="multipart/form-data">
-             <label for="file-upload" class="file-input-label">Choose a .txt journal file to append</label>
-             <input type="file" id="file-upload" name="file" accept=".txt">
-             <input type="hidden" name="journal" value="{{ journal }}">
-             <input type="hidden" name="insight" value="{{ insight }}">
-             <button type="submit">Append and Download</button>
-         </form>
+<body style="background-image: url('{{ url_for('static', filename='images/' + bg) }}');">
+  <div class="overlay">
+    <h3>Upload Your Old Journal & Append Today's Entry</h3>
 
-    <a href="/">Back to Home</a>
-         </div>
+    <form action="/update" method="POST" enctype="multipart/form-data">
+      <label class="file-input-label">
+        <span class="file-btn">Choose .txt file</span>
+        <span class="file-name">No file chosen</span>
+        <input type="file" name="file" id="file" accept=".txt" required>
+      </label>
+      <input type="hidden" name="journal" value="{{ journal_text }}">
+      <input type="hidden" name="insight" value="{{ insight }}">
+      <button type="submit" style="margin-top: 1rem;">Upload & Append</button>
+      <a href="/" style="margin-top: 0.5rem;">Back to Home</a>  
+    </form>
+    <script>
+      const fileInput = document.getElementById('file');
+      const fileNameEl = document.querySelector('.file-name');
+      fileInput.addEventListener('change', () => {
+        fileNameEl.textContent = fileInput.files.length 
+          ? fileInput.files[0].name 
+          : 'No file chosen';
+      });
+    </script>
+  </div>
 </body>
 </html>
-

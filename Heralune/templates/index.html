@@ -269,7 +269,7 @@
   <h2>Welcome to Heralune!</h2>
   <p>
     <b>How to use Heralune:</b><br><br>
-    1. Enter your journal entry in the input box and select your mood. Write you own mood if the given ones dont match your present mood.<br>
+    1. Enter your journal entry in the input box and select your mood. Write you own mood if the given ones dont match your present mood.(Please deselect the emoji while writing)<br>
     2. Click <b>Analyze</b> to receive thoughtful, empathetic insights.<br>
     3. Download your entry, or use <b>Upload and Append</b> to combine insights with previously downloaded journals.<br>
     4. You can always upload your older journal and add new thoughts.<br><br>
@@ -301,7 +301,7 @@
         <span class="emoji">😀</span>
       </label>
       <label>
-        <input type="radio" name="mood" value="🤡 Embarrased/Foolish" required style=display: none;>
+        <input type="radio" name="mood" value="🤡 Embarrased/Foolish" required style="display: none;">
         <span class="emoji">🤡</span>
       </label>
       <label>
@@ -321,12 +321,10 @@
         <span class="emoji">😎</span>
       </label>
     </div>
-
     <div style="margin-top: 10px;">
       <label for="customMood" style="color: white; font-size: 1rem;">Type your mood here :</label><br>
       <input type="text" id="customMood" name="customMood" placeholder="Only if above emojis don’t fit" style="width: 85%; padding: 10px; border-radius: 8px; border: none;">
     </div>
-
     <button onclick="startAnalysis()" type="submit">Reflect</button>
   </form>
   {% if result %}
@@ -335,51 +333,69 @@
   {% endif %}
   </div>
     <script>
+      
       function startAnalysis() {
-          const spinner = document.getElementById('spinner-container');
-          spinner.classList.remove('hidden');
+        const spinner = document.getElementById('spinner-container');
+        spinner.classList.remove('hidden');
+        setTimeout(() => {
+          spinner.classList.add('show');
+          const randomDuration = Math.floor(Math.random() * 3000) + 3000;
           setTimeout(() => {
-              spinner.classList.add('show');
-              const randomDuration = Math.floor(Math.random() * 3000) + 3000;
-              setTimeout(() => {
-                  spinner.classList.remove('show');
-                  spinner.classList.add('fade-out');
-                  setTimeout(() => {
-                      spinner.classList.add('hidden');
-                      spinner.classList.remove('fade-out');
-                  }, 700);
-              }, randomDuration);
-          }, 500);
+            spinner.classList.remove('show');
+            spinner.classList.add('fade-out');
+            setTimeout(() => {
+              spinner.classList.add('hidden');
+              spinner.classList.remove('fade-out');
+            }, 700);
+          }, randomDuration);
+        }, 500);
       }
+
       document.addEventListener('DOMContentLoaded', () => {
-        const modal      = document.getElementById('HowtoModal');
-        const closeBtn   = document.getElementById('modalClose');
-        const themeBtn   = document.getElementById('themeToggle');
-        const body       = document.body;
-        const overlay    = document.querySelector('.overlay');
+        const modal = document.getElementById('HowtoModal');
+        const closeBtn = document.getElementById('modalClose');
+        const themeBtn = document.getElementById('themeToggle');
+        const body = document.body;
+        const overlay = document.querySelector('.overlay');
         const journalBox = document.querySelector('.journal_box');
-          const customMood = document.getElementById('customMood');
-        
-        // 1) close the modal
+        const moodOptionsContainer = document.querySelector('.mood-options');
+
+        // 1) Close the modal
         closeBtn.addEventListener('click', () => {
           modal.style.display = 'none';
         });
 
-        // 2) theme toggle
+        // 2) Theme toggle
         themeBtn.addEventListener('click', () => {
           const isLight = body.classList.contains('light-mode');
           body.classList.toggle('light-mode', !isLight);
-          body.classList.toggle('dark-mode',  isLight);
-          overlay   .classList.toggle('light-mode', !isLight);
-          overlay   .classList.toggle('dark-mode',  isLight);
+          body.classList.toggle('dark-mode', isLight);
+          overlay.classList.toggle('light-mode', !isLight);
+          overlay.classList.toggle('dark-mode', isLight);
           journalBox.classList.toggle('light-mode', !isLight);
-          journalBox.classList.toggle('dark-mode',  isLight);
+          journalBox.classList.toggle('dark-mode', isLight);
           themeBtn.textContent = isLight ? '☀️' : '🌙';
         });
-      });
 
-        // 3) clear radio buttons
-      document.querySelectorAll('input[name="mood"]').forEach(r => r.checked = false);
+        // 3) Allow radio buttons to be deselected on click
+        moodOptionsContainer.addEventListener('click', (event) => {
+          const label = event.target.closest('label');
+          if (!label) return;
+          
+          const radioInput = label.querySelector('input[type="radio"][name="mood"]');
+          if (!radioInput) return;
+
+          const wasChecked = radioInput.checked;
+
+          event.preventDefault();
+          if (wasChecked) {
+            radioInput.checked = false;
+          } 
+          else {            document.querySelectorAll('input[name="mood"]').forEach(r => r.checked = false);
+            radioInput.checked = true;
+          }
+        });
+      });
     </script>
 </body>
 </html>

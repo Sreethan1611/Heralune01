@@ -78,7 +78,7 @@
         <button type="submit">Reanalyze</button>
     </form>
     <form action="{{ url_for('redo') }}" method="POST">
-        <input type="hidden" name="journal" value="{{ journal_box }}">
+        <input type="hidden" name="journal_text" value="{{ journal_box }}">
         <input type="hidden" name="insight" value="{{ result }}">
         <button type="submit">Upload and Append</button>
     </form>

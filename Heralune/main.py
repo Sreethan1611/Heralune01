@@ -1,11 +1,15 @@
-import os, random
+import io
+import os
+import random
 from datetime import datetime
 from io import BytesIO
-import requests, gunicorn
+import flask
+import gunicorn
+import requests
 from flask import (
     Flask,
-    make_response,
     Response,
+    make_response,
     redirect,
     render_template,
     request,
@@ -71,13 +75,15 @@ def index():
 @app.route("/analyze", methods=["POST"])
 def analyze():
     journal_box = request.form.get("entry")
-    mood = request.form.get("mood")
-
+    radmood = request.form.get("mood")
+    customMood = request.form.get("customMood","").strip()
+    mood = customMood or radmood
     if not journal_box or not mood:
         return "Missing journal or mood."
 
     result = get_heralune_insight(journal_box)
     bg = request.form.get("bg", "default.jpg")
+    
     return render_template("result.html", result=result, journal_box=journal_box, mood=mood, bg=session["bg"])
 
 @app.route('/reanalyze', methods=['POST'])
@@ -109,7 +115,7 @@ def update_journal():
         uploaded_file = request.files.get("file")
         journal_entry = request.form.get("journal", "").strip()
         insight = request.form.get("insight", "").strip()
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S"+" GMT+0")
         metadata = f"--- Appended Entry ---\nUpload Timestamp: {timestamp}"
         if not uploaded_file or not uploaded_file.filename or not uploaded_file.filename.endswith(".txt"):
             return "Please upload a valid .txt file."
@@ -129,36 +135,14 @@ def update_journal():
                          as_attachment=True,
                          download_name=filename,
                          mimetype='text/plain')
-
-@app.route('/upload', methods=['POST'])
-def upload():
-    journal = request.form['journal']
-    insight = request.form.get("insight", "")
-    uploaded_file = request.files.get('file')
-
-    old_content = ""
-    if uploaded_file and uploaded_file.filename:
-        old_content = uploaded_file.read().decode("utf-8")
-    new_entry = f"\n\n---\nJournal Entry:\n{journal}\n\nHeralune's Insight:\n{insight}"
-    combined_content = old_content + new_entry
-
-    output_file = BytesIO()
-    output_file.write(combined_content.encode("utf-8"))
-    output_file.seek(0)
-    filename = f"heralune_journal_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
-
-    return send_file(output_file,
-                     as_attachment=True,
-                     download_name=filename,
-                     mimetype='text/plain')
-
+        
 @app.route("/download", methods=["POST"])
 def download():
     journal = request.form.get("journal_box")
     mood = request.form.get("mood")
     insight = request.form.get("result")
 
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M" + " GMT+0")
     content = f"Heralune Journal Entry\nTimestamp: {timestamp}\nMood: {mood}\n\nJournal:\n{journal}\n\nHeralune’s Insight:\n{insight}"
 
     response = make_response(content)
