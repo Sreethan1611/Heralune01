@@ -1,35 +1,43 @@
 Heralune – AI-Powered Mood Journaling App
-Heralune is a lightweight, AI-assisted journaling tool designed to help users reflect on their emotions and thoughts. By combining mood tracking and journaling with generative AI insights, Heralune encourages emotional clarity and mental wellness through self-expression.
-
+Heralune is a lightweight, AI-assisted journaling tool designed to help users reflect on their emotions and thoughts.
+By combining mood tracking and journaling with generative AI insights, through self-expression, Heralune seeks to promote mental health and emotional clarity.
 
 Features
-Daily Mood Journaling – Users can write journal entries based on their current mood and receive gentle prompts.
-Journal Continuation – Continue and build upon previous entries using memory-safe AI.
-Downloadable Journals – Export your entries as a text file for personal backup and safekeeping.
-Re-Analyze Feature – Reprocess your journal entry for deeper emotional analysis.
-Local-Only Save Option – No data is stored on servers unless explicitly downloaded.
-Minimalist UI – Clean, distraction-free interface for writing in peace.
+Daily Mood Journaling: Using gentle AI prompts, write journal entries based on your present mood.
+Journal Continuation: Use memory-safe AI to carry on and expand on earlier entries.
+Downloadable Journals: For personal backup, export your entries as a.txt file.
+Re-Analyze Feature: Reprocess an entry to gain a more profound understanding of its emotions.
+Local-Only Save Option: Unless specifically downloaded, no data is kept on servers.
+Clean, distraction-free writing space with minimalist user interface.
 
-How to Use:
-Visit the Heralune web app [(link here)](https://heralune.onrender.com).
-Enter your mood and write freely in the journal space.
-Let the AI assist in reflecting on your thoughts.
-Download your entries for later review or continue them next session.
-Use the "Re-analyze" feature for deeper insight into your emotions.
+How to Use
+Launch the Heralune web application (heralune.onrender.com).
+Enter your feelings and write anything you want in the journal.
+Allow the AI to help you think.
+You can continue your entries in the following session or download them for later review.
+For more in-depth understanding, utilize the Re-Analyze function.
 
 Why Heralune?
-This project was born out of a personal need for a safe, intuitive space to process thoughts during emotionally tough times. It’s built with empathy at its core and powered by ethical AI designed for reflection, not judgment.
+This project came about because I needed a safe, easy-to-use, and private place to think during emotionally hard times.
+It is built on empathy and uses ethical AI to help people think, not judge.
 
 Tech Stack
-Python + Flask (backend)
-HTML/CSS/JavaScript (frontend)
-GroqAI API for AI response generation
-Render for deployment
+Backend: Python + Flask
+Frontend: HTML, CSS, JavaScript
+AI Model: Groq API (for AI response generation)
+Deployment: Render
+
+Development Notes & Transparency
+This project is a step in my journey to learn AI on my own.
+I made changes to the UI, added core integrations, and added specific Heralune features. I also reused small pieces of open-source Flask code to speed up development.
+ChatGPT helped with debugging.
+All of the reused code was looked over, changed, and combined with the original work to meet the app's needs.
 
 Credits
-Built by Sreethan CK as part of an independent AI learning journey.
-Thanks to friends and early testers for their support and encouragement.
-Used ChatGPT for some debugging.
+Developer: Sreethan CK
+Thanks to friends and early testers for their feedback.
+ChatGPT was used for some debugging and feature-polishing guidance.
 
 Disclaimer
-Heralune is not a replacement for professional mental health services. It is a journaling assistant meant for self-reflection and personal growth.
+Heralune is not a replacement for professional mental health care.
+It is a journaling assistant meant solely for self-reflection and personal growth.
