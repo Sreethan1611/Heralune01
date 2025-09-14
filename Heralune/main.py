@@ -31,7 +31,7 @@ def get_heralune_insight(journal_text):
     }
 
     data = {
-        "model": "llama3-70b-8192",
+        "model": "llama3.3-70b-versatile",
         "messages": [
             {
                 "role": "system",
