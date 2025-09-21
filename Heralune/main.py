@@ -20,13 +20,11 @@ app.secret_key = os.urandom(24)
 
 api_key = os.getenv("GROQ_API_KEY")
 
-
 def get_heralune_insight(journal_text):
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json"
     }
-
     data = {
         "model": "llama3.3-70b-versatile",
         "messages": [
@@ -43,28 +41,22 @@ def get_heralune_insight(journal_text):
         ],
         "temperature": 0.7
     }
-
     response = requests.post(
         "https://api.groq.com/openai/v1/chat/completions",
         headers=headers,
         json=data,
         timeout=30
     )
-
-    # safely access JSON
     data = response.json()
     return data.get("choices", [{}])[0].get("message", {}).get("content", "")
 
-
 def get_random_bg():
     return random.choice(["ms1.jpg", "ms2.jpg", "ms3.jpg", "ms4.jpg"])
-
 
 @app.before_request
 def ensure_bg():
     if "bg" not in session:
         session["bg"] = get_random_bg()
-
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -76,7 +68,6 @@ def index():
         session["insight"] = get_heralune_insight(journal)
         return redirect(url_for("redo"))
     return render_template("index.html", bg=session["bg"])
-
 
 @app.route("/analyze", methods=["POST"])
 def analyze():
@@ -96,7 +87,6 @@ def analyze():
         bg=session["bg"]
     )
 
-
 @app.route("/reanalyze", methods=["POST"])
 def reanalyze():
     journal_box = request.form.get("journal_box", "")
@@ -108,7 +98,6 @@ def reanalyze():
         bg=session["bg"]
     )
 
-
 @app.route("/redo", methods=["GET"])
 def redo():
     journal = session.get("journal", "")
@@ -119,7 +108,6 @@ def redo():
         insight=insight,
         bg=session["bg"]
     )
-
 
 @app.route("/reanalyze_result", methods=["POST"])
 def reanalyze_result():
@@ -135,7 +123,6 @@ def reanalyze_result():
         mood=mood,
         bg=session["bg"]
     )
-
 
 @app.route("/update", methods=["POST"])
 def update_journal():
@@ -184,7 +171,6 @@ def download():
     response.headers["Content-Disposition"] = "attachment; filename=heralune_journal.txt"
     response.headers["Content-Type"] = "text/plain"
     return response
-
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
