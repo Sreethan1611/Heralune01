@@ -65,7 +65,7 @@ def index():
         if not journal:
             return "Please enter a journal entry."
         session["journal"] = journal
-        session["insight"] = get_heralune_insight(journal)
+        session["result"] = get_heralune_insight(journal)
         return redirect(url_for("redo"))
     return render_template("index.html", bg=session["bg"])
 
