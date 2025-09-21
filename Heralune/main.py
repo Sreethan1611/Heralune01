@@ -1,6 +1,6 @@
 import os
 import random
-from datetime import datetime
+from datetime import datetime, timezone
 from io import BytesIO
 
 import requests
@@ -129,7 +129,7 @@ def update_journal():
     uploaded_file = request.files.get("file")
     journal_entry = request.form.get("journal", "").strip()
     insight = request.form.get("insight", "").strip()
-    timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S GMT+0")
+    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S GMT+0")
 
     if not uploaded_file or not uploaded_file.filename or not uploaded_file.filename.endswith(".txt"):
         return "Please upload a valid .txt file."
@@ -147,7 +147,7 @@ def update_journal():
     output_file = BytesIO()
     output_file.write(updated_content.encode("utf-8"))
     output_file.seek(0)
-    filename = f"heralune_updated_journal_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.txt"
+    filename = f"heralune_updated_journal_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.txt"
     return send_file(
         output_file,
         as_attachment=True,
@@ -160,7 +160,7 @@ def download():
     journal = request.form.get("journal_box", "")
     mood = request.form.get("mood", "")
     insight = request.form.get("result", "")
-    timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M GMT+0")
+    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M GMT+0")
 
     content = (
         f"Heralune Journal Entry\nTimestamp: {timestamp}\nMood: {mood}\n\n"
