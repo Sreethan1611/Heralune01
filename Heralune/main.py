@@ -65,6 +65,7 @@ def index():
         if not journal:
             return "Please enter a journal entry."
         session["journal"] = journal
+        # Store the insight in 'result'
         session["result"] = get_heralune_insight(journal)
         return redirect(url_for("redo"))
     return render_template("index.html", bg=session["bg"])
@@ -101,11 +102,11 @@ def reanalyze():
 @app.route("/redo", methods=["GET"])
 def redo():
     journal = session.get("journal", "")
-    insight = session.get("insight", "")
+    result = session.get("result", "")
     return render_template(
         "redo.html",
         journal=journal,
-        insight=insight,
+        result=result,
         bg=session["bg"]
     )
 
@@ -128,7 +129,8 @@ def reanalyze_result():
 def update_journal():
     uploaded_file = request.files.get("file")
     journal_entry = request.form.get("journal", "").strip()
-    insight = request.form.get("insight", "").strip()
+    # Changed the variable name from 'insight' to 'result'
+    result = request.form.get("insight", "").strip()
     timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
 
     if not uploaded_file or not uploaded_file.filename or not uploaded_file.filename.endswith(".txt"):
@@ -140,7 +142,7 @@ def update_journal():
 
     metadata = f"--- Appended Entry ---\nUpload Timestamp: {timestamp}"
     new_content = (
-        f"\n\n{metadata}\nJournal Entry:\n{journal_entry}\n\nHeralune's Insight:\n{insight}\n"
+        f"\n\n{metadata}\nJournal Entry:\n{journal_entry}\n\nHeralune's Insight:\n{result}\n"
     )
     updated_content = f"{previous_content.strip()}{new_content}"
 
