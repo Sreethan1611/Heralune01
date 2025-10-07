@@ -67,21 +67,21 @@
   <h2>Mood: {{ mood }}</h2>
   <a href="/">Write Another</a>
     <form method="POST" action="/download">
-        <input type="hidden" name="journal_box" value="{{ journal_box }}">
-        <input type="hidden" name="mood" value="{{ mood }}">
-        <input type="hidden" name="result" value="{{ result }}">
-        <button type="submit">Download Journal</button>
+      <input type="hidden" name="journal_box" value="{{ journal_box }}">
+      <input type="hidden" name="mood" value="{{ mood }}">
+      <input type="hidden" name="result" value="{{ result }}">
+      <button type="submit">Download Journal</button>
     </form>
     <form method="POST" action="/reanalyze">
-        <input type="hidden" name="journal_box" value="{{ journal_box }}">
-        <input type="hidden" name="mood" value="{{ mood }}">
-        <button type="submit">Reanalyze</button>
+      <input type="hidden" name="journal_box" value="{{ journal_box }}">
+      <input type="hidden" name="mood" value="{{ mood }}">
+      <button type="submit">Reanalyze</button>
     </form>
-    <form action="{{ url_for('redo') }}" method="POST">
-        <input type="hidden" name="journal_text" value="{{ journal_box }}">
-        <input type="hidden" name="insight" value="{{ result }}">
-        <button type="submit">Upload and Append</button>
-        <a href="https://forms.gle/HVEMN13pqqRkh5sA7" target="_blank";">Feedback Form</a>
+    <form action="{{ url_for('redo') }}" method="GET">
+      <input type="hidden" name="journal_box" value="{{ journal_box }}">
+      <input type="hidden" name="result" value="{{ result }}">
+      <button type="submit">Upload and Append</button>
+      <a href="https://forms.gle/HVEMN13pqqRkh5sA7" target="_blank";">Feedback Form</a>
     </form>
   </div>
 </body>

@@ -329,13 +329,7 @@
     </div>
     <button onclick="startAnalysis()" type="submit">Reflect</button>
   </form>
-  {% if result %}
-    <h3>Result:</h3>
-    <p>{{ result }}</p>
-  {% endif %}
-  </div>
-    <script>
-      
+  <script> 
       function startAnalysis() {
         const spinner = document.getElementById('spinner-container');
         spinner.classList.remove('hidden');
