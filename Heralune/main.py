@@ -31,10 +31,7 @@ def get_heralune_insight(journal_text):
             {
                 "role": "system",
                 "content": (
-                    "You are a supportive emotional assistant. A user is journaling their thoughts. "
-                    "Don't ask for a second entry. Respond with empathy, encouragement, and gentle "
-                    "reflection. Avoid judgment or medical advice. If appropriate, suggest simple "
-                    "techniques for self-awareness or comfort."
+                    "You are a supportive emotional assistant. A user is journaling their thoughts. Don't ask for a second entry. Respond with empathy, encouragement, and gentle reflection. Avoid judgment or medical advice. If appropriate, suggest simple techniques for self-awareness or comfort."
                 )
             },
             {"role": "user", "content": journal_text}
@@ -48,7 +45,7 @@ def get_heralune_insight(journal_text):
         timeout=30
     )
     data = response.json()
-    return data.get("choices", [{}])[0].get("message", {}).get("content", "")
+    return data.get("choices", [{}])[0].get("result", {}).get("content", "")
 
 def get_random_bg():
     return random.choice(["ms1.jpg", "ms2.jpg", "ms3.jpg", "ms4.jpg"])
@@ -65,7 +62,6 @@ def index():
         if not journal:
             return "Please enter a journal entry."
         session["journal"] = journal
-        # Store the insight in 'result'
         session["result"] = get_heralune_insight(journal)
         return redirect(url_for("redo"))
     return render_template("index.html", bg=session["bg"])
@@ -129,7 +125,6 @@ def reanalyze_result():
 def update_journal():
     uploaded_file = request.files.get("file")
     journal_entry = request.form.get("journal", "").strip()
-    # Changed the variable name from 'insight' to 'result'
     result = request.form.get("insight", "").strip()
     timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
 
