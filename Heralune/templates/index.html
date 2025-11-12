@@ -329,8 +329,7 @@
     </div>
     <button onclick="startAnalysis()" type="submit">Reflect</button>
   </form>
-  </div>
-    <script>
+  <script> 
       function startAnalysis() {
         const spinner = document.getElementById('spinner-container');
         spinner.classList.remove('hidden');
@@ -356,14 +355,7 @@
         const overlay = document.querySelector('.overlay');
         const journalBox = document.querySelector('.journal_box');
         const moodOptionsContainer = document.querySelector('.mood-options');
-        form.addEventListener('submit', (e) => {
-        const entry = document.querySelector('textarea[name="entry"]').value.trim();
-        const mood = document.querySelector('input[name="mood"]:checked');
-        const customMood = document.querySelector('input[name="customMood"]').value.trim();
 
-        if (entry && (mood || customMood)) {
-            showLoading();
-        }
         // 1) Close the modal
         closeBtn.addEventListener('click', () => {
           modal.style.display = 'none';
