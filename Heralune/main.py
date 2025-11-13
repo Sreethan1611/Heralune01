@@ -82,7 +82,6 @@ def analyze():
     result = get_heralune_insight(journal_box)
     return render_template(
         "result.html",
-        result=result,
         journal_box=journal_box,
         mood=mood,
         bg=session["bg"]
