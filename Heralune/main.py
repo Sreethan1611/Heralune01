@@ -65,7 +65,6 @@ def index():
         if not journal:
             return "Please enter a journal entry."
         session["journal"] = journal
-        # Store the insight in 'result'
         session["result"] = get_heralune_insight(journal)
         return redirect(url_for("redo"))
     return render_template("index.html", bg=session["bg"])
@@ -73,9 +72,9 @@ def index():
 @app.route("/analyze", methods=["POST"])
 def analyze():
     journal_box = request.form.get("entry", "").strip()
-    radmood = request.form.get("mood", "").strip()
-    custom_mood = request.form.get("customMood", "").strip()
-    mood = custom_mood or radmood
+    radmood = request.form.get("mood", "").strip() or None
+    custom_mood = request.form.get("customMood", "").strip() or None
+    mood = custom_mood if custom_mood else radmood
     if not journal_box or not mood:
         return "Missing journal or mood."
 
