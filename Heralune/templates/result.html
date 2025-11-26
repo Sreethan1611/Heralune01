@@ -63,14 +63,14 @@
   <h2>Your Journal Entry:</h2>
   <p>{{ journal_box }}</p>
   <h2>Heralune's Insight:</h2>
-  <p>"It makes sense that you’re exhausted — emotional hits like a fight with someone important don’t just hurt, they drain you. When your mind keeps replaying what happened, it burns energy you didn’t even realize you were spending. <br> Try noticing where that exhaustion sits in your body — tight shoulders, heavy chest, foggy head. Just acknowledging it can take a little of the weight off. You don’t need to fix anything right now; you’re allowed to simply stop, breathe, and let your system settle. <br>If it helps, place your hand on your chest for a moment and take one slow breath. It’s a small gesture, but it signals your body that it’s safe to rest."
+  <p>"Thank You for Using Heralune. <br> We are working on updating our model to give you more accurate insights. We regret the inconvenience caused"
     </p>
   <h2>Mood: {{ mood }}</h2>
   <a href="/">Write Another</a>
     <form method="POST" action="/download">
       <input type="hidden" name="journal_box" value="{{ journal_box }}">
       <input type="hidden" name="mood" value="{{ mood }}">
-      <input type="hidden" name="result" value="That sounds really painful. When someone close to you becomes part of an argument, it can feel like a piece of your stability goes missing for a while. It’s okay to feel sad — it just shows how much that friendship matters to you. If you can, try to take a quiet moment to breathe and replay what happened without judging either side — just to understand, not to blame. Sometimes writing down what you wish you could tell them helps you process the feelings before you actually reach out.">
+      <input type="hidden" name="result" value="Thank You for Using Heralune. We are working on updating our model to give you more accurate insights. We regret the inconvenience caused">
       <button type="submit">Download Journal</button>
     </form>
     <form method="POST" action="/reanalyze">
